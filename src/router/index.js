@@ -55,18 +55,6 @@ export const constantRoutes = [
     }]
   },
 
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'userlist',
-  //       name: 'UserList',
-  //       component: () => import('@/views/user/index'),
-  //       meta: { title: '用户列表', icon: 'user' }
-  //     }
-  //   ]
-  // },
   {
     path: '/memberinfo',
     component: Layout,
@@ -75,23 +63,11 @@ export const constantRoutes = [
         path: 'memberinfo',
         name: 'Member Info',
         component: () => import('@/views/memberInfo/index'),
-        meta: { title: '获取用户列表', icon: 'user' }
+        meta: { title: '用户列表', icon: 'user' }
       }
     ]
   },
 
-  // {
-  //   path: '/product',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'prodlist',
-  //       name: 'ProductList',
-  //       component: () => import('@/views/product/index'),
-  //       meta: { title: '产品列表', icon: 'el-icon-s-shop' }
-  //     }
-  //   ]
-  // },
   {
     path: '/article',
     component: Layout,
@@ -100,7 +76,7 @@ export const constantRoutes = [
         path: 'artilce',
         name: 'ArticleList',
         component: () => import('@/views/article/index'),
-        meta: { title: '获取文章列表', icon: 'el-icon-s-shop' }
+        meta: { title: '文章列表', icon: 'el-icon-s-shop' }
       }
     ]
   },
@@ -109,35 +85,11 @@ export const constantRoutes = [
     component: Layout,
     meta: { title: '记录查询', icon: 'el-icon-s-finance' },
     children: [
-      // {
-      //   path: 'transactionlist',
-      //   name: 'TransList',
-      //   component: () => import('@/views/transaction/index'),
-      //   meta: { title: '充值记录', icon: 'el-icon-sort-up' }
-      // },
-      // {
-      //   path: 'transactionlistwithdraw',
-      //   name: 'TransListWithdraw',
-      //   component: () => import('@/views/transaction-withdraw/index'),
-      //   meta: { title: '提现记录', icon: 'el-icon-sort-down' }
-      // },
-      // {
-      //   path: 'transactionlist004',
-      //   name: 'TransList004',
-      //   component: () => import('@/views/transaction-004/index'),
-      //   meta: { title: '收益记录', icon: 'el-icon-caret-top' }
-      // },
-      // {
-      //   path: 'transactionlist005',
-      //   name: 'TransList005',
-      //   component: () => import('@/views/transaction-005/index'),
-      //   meta: { title: '返佣记录', icon: 'el-icon-s-data' }
-      // },
       {
         path: 'fun_record',
         name: 'Fun Record',
         component: () => import('@/views/funrecord/index'),
-        meta: { title: '获取资金记录', icon: 'el-icon-s-goods' }
+        meta: { title: '资金记录', icon: 'el-icon-s-goods' }
       },
       {
         path: 'loglist',
@@ -155,12 +107,6 @@ export const constantRoutes = [
     name: 'ConfigManage',
     meta: { title: '系统设置', icon: 'el-icon-more' },
     children: [
-      // {
-      //   path: 'clist',
-      //   name: 'ConfigList',
-      //   component: () => import('@/views/config/index'),
-      //   meta: { title: '系统设置管理', icon: 'el-icon-s-tools' }
-      // },
       {
         path: 'carolist',
         name: 'CarouselList',
@@ -172,25 +118,7 @@ export const constantRoutes = [
         name: 'All Setting',
         component: () => import('@/views/allsetting/index'),
         meta: { title: '系统设置管理', icon: 'el-icon-s-tools' }
-      },
-      // {
-      //   path: 'levellist',
-      //   name: 'LevelList',
-      //   component: () => import('@/views/level/index'),
-      //   meta: { title: '等级管理', icon: 'el-icon-d-caret' }
-      // },
-      // {
-      //   path: 'rewardlist',
-      //   name: 'RewardList',
-      //   component: () => import('@/views/reward/index'),
-      //   meta: { title: '三层返佣管理', icon: 'el-icon-s-data' }
-      // },
-      // {
-      //   path: 'messagelist',
-      //   name: 'MessageList',
-      //   component: () => import('@/views/message/index'),
-      //   meta: { title: '公告列表', icon: 'el-icon-info' }
-      // }
+      }
     ]
   },
 

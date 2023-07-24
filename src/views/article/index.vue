@@ -2,10 +2,10 @@
   <div class="app-container">
 
     <div style="display: flex;">
-      <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加产品</el-button>
+      <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加文章</el-button>
             <el-input
         v-model="find_id"
-        placeholder="查询id(可选）"
+        placeholder="ID"
         size="small"
         clearable
         style="width: 150px;margin-left:10px"
@@ -35,6 +35,7 @@
       :data="articleList.record"
       element-loading-text="Loading"
       border
+      stripe
       fit
       height="720"
       highlight-current-row
@@ -61,7 +62,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="图片地址" show-overflow-tooltip width="230" align="center">
+      <el-table-column label="图片地址" show-overflow-tooltip width="430" align="center">
         <template slot-scope="scope">
           <el-image 
             style="width: 30px; height: 20px"
@@ -85,7 +86,7 @@
 
 
       <el-table-column
-        label="时间"
+        label="添加时间"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -96,7 +97,7 @@
       </el-table-column>
 
       <el-table-column
-        label="更多"
+        label="操作"
         width="170"
         align="center"
       >
@@ -119,7 +120,7 @@
 
     <el-dialog
    
-    title="产品图片上传"
+    title="上传文章封面"
     :visible.sync="dialogFormVisible"
     :close-on-click-modal="false"
    fullscreen

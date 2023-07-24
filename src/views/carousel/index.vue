@@ -13,7 +13,7 @@
         <el-button size="medium" icon="el-icon-upload" :loading="loading" type="text">点击上传轮播图</el-button>
       </el-upload> -->
 
-       <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加产品</el-button>
+       <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加轮播图</el-button>
       
       <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 20px" @click="getCarousalList">刷新</el-button>
     </div>
@@ -24,6 +24,7 @@
       :data="carousalList.record"
       element-loading-text="Loading"
       border
+      stripe
       fit
       highlight-current-row
     >
@@ -35,15 +36,15 @@
       <el-table-column align="left" label="操作" width="100">
         <template slot-scope="scope">
           <el-popconfirm title="您确定要删除吗？" @onConfirm="deleteCarousal(scope.row)">
-            <el-button slot="reference" size="medium" type="text" style="color: red">删除</el-button>
+            <el-button slot="reference" size="medium" type="danger">删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="文章id"
+        label="轮播图 ID"
         show-overflow-tooltip
-        width="70"
+        width="100"
         align="center"
       >
         <template slot-scope="scope">
@@ -54,7 +55,7 @@
       <el-table-column
         label="图片名称"
         show-overflow-tooltip
-        width="70"
+        width="180"
         align="center"
       >
         <template slot-scope="scope">
@@ -65,7 +66,7 @@
       <el-table-column
         label="地址"
         show-overflow-tooltip
-        width="70"
+        width="100"
         align="center"
       >
         <template slot-scope="scope">
@@ -86,7 +87,7 @@
 
 
        <el-dialog
-    title="产品图片上传"
+    title="上传轮播图"
     :visible.sync="dialogFormVisible"
     :close-on-click-modal="false"
     width="500px"
@@ -100,7 +101,7 @@
         <el-input v-model="form.imageName" type="text" ></el-input>
       </el-form-item>
 
-      <el-form-item label="产品图片">
+      <el-form-item label="选择图片">
 
         <el-upload
           ref="uploadCarousel"

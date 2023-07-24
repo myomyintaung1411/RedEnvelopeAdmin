@@ -54,6 +54,7 @@
       :data="LoginList.record"
       element-loading-text="Loading"
       border
+      stripe
       fit
       height="720"
       highlight-current-row

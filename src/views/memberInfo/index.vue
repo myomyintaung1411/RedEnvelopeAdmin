@@ -3,14 +3,14 @@
     <div style="display: flex; align-items: center">
       <el-input
         v-model="find_id"
-        placeholder="查询id(可选）"
+        placeholder="ID"
         size="small"
         clearable
         style="width: 150px"
       ></el-input>
       <el-input
         v-model="find_name"
-        placeholder="查询帐号(可选）"
+        placeholder="帐号"
         size="small"
         clearable
         style="margin-left: 10px; width: 150px"
@@ -18,7 +18,7 @@
 
       <el-input
         v-model="nickname"
-        placeholder="查询昵称(可选）"
+        placeholder="昵称"
         size="small"
         clearable
         style="margin-left: 10px; width: 150px"
@@ -57,6 +57,7 @@
       :data="memberInfoData.record"
       element-loading-text="Loading"
       border
+      stripe
       fit
       height="720"
       highlight-current-row
@@ -94,7 +95,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="创建时间"
+        label="直属上级"
         show-overflow-tooltip
         width="150"
         align="center"
@@ -121,7 +122,7 @@
       </el-table-column>
 
       <el-table-column
-        label="抢单日期"
+        label="注册日期"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -131,7 +132,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="抢单日期"
+        label="登录日期"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -141,7 +142,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="开户行"
+        label="银行名称"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -151,7 +152,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="户头账户"
+        label="姓名"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -161,7 +162,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="卡号"
+        label="银行卡号"
         show-overflow-tooltip
         width="170"
         align="center"
@@ -171,7 +172,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="身份证"
+        label="身份证号"
         show-overflow-tooltip
         width="170"
         align="center"

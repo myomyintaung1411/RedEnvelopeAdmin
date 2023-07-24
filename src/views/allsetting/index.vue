@@ -35,7 +35,7 @@
          <el-row :gutter="20">
             <el-col :span="3">
             <div>
-                <el-button icon="el-icon-plus" type="primary" size="medium" style="margin-left: 10px" @click="openRedpackage" >设定红包金额</el-button>
+                <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px" @click="openRedpackage" >设定红包金额</el-button>
             </div>
             </el-col>
             <el-col :span="4"><div class="grid-content bg-purple">
@@ -54,7 +54,7 @@
          <el-row :gutter="20">
         <el-col :span="3">
          <div>
-      <el-button icon="el-icon-plus" type="primary" size="medium"  style="margin-left: 10px"   @click="openNotice" >设定公告内容</el-button >
+      <el-button icon="el-icon-setting" type="primary" size="medium"  style="margin-left: 10px"   @click="openNotice" >设定公告内容</el-button >
          </div>
         </el-col>
         <el-col :span="4"><div class="grid-content bg-purple">
@@ -70,14 +70,14 @@
     </div>
 
     <el-dialog
-      title="产品图片上传"
+      title="设定红包金额"
       :visible.sync="redpackge_dialog"
       :close-on-click-modal="false"
       width="500px"
       @close="onCancel"
     >
       <el-form ref="form" label-width="90px">
-        <el-form-item label="图片名称">
+        <el-form-item label="金额">
           <el-input v-model="red_pack_money" type="number"></el-input>
         </el-form-item>
       </el-form>
@@ -94,14 +94,14 @@
     </el-dialog>
 
     <el-dialog
-      title="产品图片上传"
+      title="设定公告内容"
       :visible.sync="notice_dialog"
       :close-on-click-modal="false"
       width="500px"
       @close="onCancel"
     >
       <el-form ref="form" label-width="90px">
-        <el-form-item label="图片对应的文章内容">
+        <el-form-item label="公告内容">
           <el-input v-model="notice" type="textarea" :rows="4"></el-input>
         </el-form-item>
       </el-form>

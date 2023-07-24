@@ -16,7 +16,7 @@
         placeholder="选择日期时间">
       </el-date-picker>
 
-      <el-input v-model="find_id" placeholder="查询id(可选）" size="small" clearable style="margin-left: 10px; width: 150px;"></el-input>
+      <el-input v-model="find_id" placeholder="查询id" size="small" clearable style="margin-left: 10px; width: 150px;"></el-input>
 
      
       <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px;" @click="getOrderSearch">搜索</el-button>
@@ -39,6 +39,7 @@
       element-loading-text="Loading"
       border
       fit
+      stripe
       height="720"
       highlight-current-row
     >
@@ -80,7 +81,7 @@
 
 
 
-      <el-table-column label="抢单日期" show-overflow-tooltip width="170" align="center">
+      <el-table-column label="日期" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.create_at }}</span>
         </template>
