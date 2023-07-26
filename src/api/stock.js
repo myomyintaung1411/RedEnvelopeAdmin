@@ -79,4 +79,11 @@ export function get_setup(data) { // configlist of redamoumnt money and notice a
     data
   })
 }
+export function referral_setup(data) { // configlist of referral_setup
+  return request({
+    url: `/ht/referral_setup`,
+    method: 'post',
+    data
+  })
+}
 

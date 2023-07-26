@@ -30,7 +30,7 @@
 
     <div style="margin: 5px"></div>
 
-    <div v-if="setup_data"  style="margin-top: 20px;min-width:1250px;">
+    <div   style="margin-top: 20px;min-width:1250px;">
         <div >
          <el-row :gutter="20">
             <el-col :span="3">
@@ -38,12 +38,12 @@
                 <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px" @click="openRedpackage" >设定红包金额</el-button>
             </div>
             </el-col>
-            <el-col :span="4"><div class="grid-content bg-purple">
+            <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
                 <div style="line-height: 36px;text-align:center">红包金额</div>
                 </div>
             </el-col>
 
-            <el-col :span="12"><div class="grid-content bg-purple">
+            <el-col v-if="setup_data" :span="12"><div class="grid-content bg-purple">
                 <div style="line-height: 36px;text-align:center;color:red">{{setup_data.amount}}</div>
                 </div>
             </el-col>
@@ -57,16 +57,46 @@
       <el-button icon="el-icon-setting" type="primary" size="medium"  style="margin-left: 10px"   @click="openNotice" >设定公告内容</el-button >
          </div>
         </el-col>
-        <el-col :span="4"><div class="grid-content bg-purple">
+        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
             <div style="line-height: 36px;text-align:center">公告内容</div>
             </div>
         </el-col>
 
-        <el-col :span="12"><div class="grid-content bg-purple">
+        <el-col v-if="setup_data" :span="12"><div class="grid-content bg-purple">
             <div style="line-height: 36px;text-align:center;color:red;padding:3px;font-size:14px;">{{setup_data.msg}}</div>
             </div></el-col>
       </el-row>
     </div>
+
+    <div style="margin-top:10px">
+         <el-row :gutter="20">
+        <el-col :span="3">
+         <div>
+      <el-button icon="el-icon-setting" type="primary" size="medium"  style="margin-left: 10px"   @click="openLevel" >设定推荐奖
+</el-button >
+         </div>
+        </el-col>
+
+        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
+            <div style="line-height: 36px;text-align:center">一级推荐奖 : <span style="color:red">{{setup_data.referral_reward1}}</span></div>
+            </div>
+        </el-col>
+
+        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
+            <div style="line-height: 36px;text-align:center">二级推荐奖  : <span style="color:red">{{setup_data.referral_reward2}}</span></div>
+            </div>
+        </el-col>
+        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
+            <div style="line-height: 36px;text-align:center">三级推荐奖 : <span style="color:red">{{setup_data.referral_reward3}}</span></div>
+            </div>
+        </el-col>
+
+
+
+      </el-row>
+    </div>
+
+
     </div>
 
     <el-dialog
@@ -113,12 +143,39 @@
         >
       </div>
     </el-dialog>
+
+    <el-dialog
+      title="设定推荐奖"
+      :visible.sync="level_dialog"
+      :close-on-click-modal="false"
+      width="500px"
+      @close="onCancel"
+    >
+      <el-form ref="form" label-width="90px">
+        <el-form-item label="一级推荐奖">
+          <el-input v-model="lvl1" type="number" ></el-input>
+        </el-form-item>
+        <el-form-item label="二级推荐奖">
+          <el-input v-model="lvl2" type="number"></el-input>
+        </el-form-item>
+        <el-form-item label="三级推荐奖">
+          <el-input v-model="lvl3" type="number"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer">
+        <el-button @click="onCancel()">取消</el-button>
+        <el-button type="primary" :loading="loading" @click="onConfirm_level()"
+          >确认</el-button
+        >
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import elDragDialog from "@/directive/el-drag-dialog";
-import { notice_setup, redpackage_setup, get_setup } from "@/api/stock";
+import { notice_setup, redpackage_setup, get_setup ,referral_setup} from "@/api/stock";
 import { mapState, mapGetters } from "vuex";
 import moment from "moment";
 // import Update from './action/edit.vue'
@@ -143,7 +200,11 @@ export default {
 
       notice: "",
       red_pack_money: "",
-      setup_data:''
+      setup_data:'',
+      level_dialog:false,
+      lvl1:'',
+      lvl2:'',
+      lvl3:'',
     };
   },
   computed: {
@@ -183,11 +244,43 @@ export default {
     openNotice() {
       this.notice_dialog = true;
     },
+    openLevel() {
+      this.level_dialog = true;
+    },
     onCancel() {
       this.redpackge_dialog = false;
       this.notice_dialog = false;
+      this.level_dialog = false;
+      this.lvl1 = ''
+      this.lvl2 = ''
+      this.lvl3 = ''
       this.notice = "";
       this.red_pack_money = "";
+    },
+    onConfirm_level() {
+      if (this.lvl1 == "" || this.lvl2 == "" || this.lvl3 == "") return this.$message.error("请输入金额");
+      let send_ = {
+        referral_reward1: this.lvl1,
+        referral_reward2: this.lvl2,
+        referral_reward3: this.lvl3,
+      };
+
+      this.listLoading = true;
+      referral_setup(send_)
+        .then((res) => {
+          console.log("res ", res);
+          if (res.success && res.code == 200) {
+            this.$message.success(res.msg);
+            this.Get_Setup_Api();
+            this.onCancel();
+          } else {
+            this.$message.error(res.msg);
+          }
+          this.listLoading = false;
+        })
+        .catch((e) => {
+          this.listLoading = false;
+        });
     },
     onConfirm_Red_Pack() {
       if (this.red_pack_money == "") return this.$message.error("请输入金额");
@@ -201,6 +294,7 @@ export default {
           console.log("res ", res);
           if (res.success && res.code == 200) {
             this.$message.success(res.msg);
+            this.Get_Setup_Api();
             this.onCancel();
           } else {
             this.$message.error(res.msg);
@@ -223,6 +317,7 @@ export default {
           console.log("res ", res);
           if (res.success && res.code == 200) {
             this.$message.success(res.msg);
+            this.Get_Setup_Api();
             this.onCancel();
           } else {
             this.$message.error(res.msg);

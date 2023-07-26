@@ -78,8 +78,8 @@
         <template slot-scope="scope">
           <el-image 
             style="width: 30px; height: 20px"
-            :src="scope.row.url" 
-            :preview-src-list="[scope.row.url]">
+            :src=" 'http://45.116.165.93:4195/statics/ '+  scope.row.url" 
+            :preview-src-list="  ['http://45.116.165.93:4195/statics/' + scope.row.url]">
           </el-image>
         </template>
       </el-table-column>
@@ -97,9 +97,9 @@
     <el-form ref="form" :model="form" label-width="90px">
       
  
-      <el-form-item label="图片名称">
+      <!-- <el-form-item label="图片名称">
         <el-input v-model="form.imageName" type="text" ></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="选择图片">
 
@@ -228,9 +228,10 @@ export default {
          
         if (res.code ==  0 ) {
             this.form.imageUrl = res.data.url
-            //this.form.imgname = res.data.name
+            this.form.imgname = res.data.name
            this.$message.success(res.message)
-          //this.onCancel()
+            //this.getCarousalList()
+          this.onConfirm()
          // this.$emit('productEmit', true)
         } else{
             this.$message.error(res.message)
@@ -244,29 +245,29 @@ export default {
         onCancel(){
         this.dialogFormVisible = false
         this.form.imageUrl = ''
-        this.form.imageName = ''
+        this.form.imgname = ''
     },
 
         onConfirm(){
         console.log(this.form.imageUrl)
-        if(this.form.imageUrl == '' || this.form.imageName == '') return this.$message.error('请输入所有已归档的内容')
+        if(this.form.imageUrl == '') return this.$message.error('请输入所有已归档的内容')
         
         let data = {
-            imgname:this.form.imageName,
+            imgname:this.form.imgname,
             address:1,
             url:this.form.imageUrl
         }
 
-       const loading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+      //  const loading = this.$loading({
+      //     lock: true,
+      //     text: 'Loading',
+      //     spinner: 'el-icon-loading',
+      //     background: 'rgba(0, 0, 0, 0.7)'
+      //   });
        
        upload_chart(data)
         .then((res) => {
-            loading.close();
+            //loading.close();
           console.log("res ", res);
           
           if (res.success && res.code == 200) {
@@ -282,7 +283,7 @@ export default {
           this.listLoading = false;
         })
         .catch((e) => {
-            loading.close();
+           // loading.close();
           this.listLoading = false;
         });
     },
