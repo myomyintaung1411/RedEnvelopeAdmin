@@ -123,7 +123,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog
+    <!-- <el-dialog
       title="设定公告内容"
       :visible.sync="notice_dialog"
       :close-on-click-modal="false"
@@ -142,7 +142,33 @@
           >确认</el-button
         >
       </div>
-    </el-dialog>
+    </el-dialog> -->
+
+        <el-dialog
+    title="设定公告内容"
+    :visible.sync="notice_dialog"
+    :close-on-click-modal="false"
+   fullscreen
+   :destroy-on-close="true"
+    @close="onCancel"
+  >
+    <div>
+      <VueEditor
+        id="editor"
+        useCustomImageHandler
+        :editorOptions="editorSettings"
+        @image-added="handleImageAdded"
+        v-model="form.content"
+        style="height: 600px;"
+      >
+      </VueEditor>
+    </div>
+
+    <div slot="footer" style="margin-top:30px">
+      <el-button @click="onCancel()">取消</el-button>
+      <el-button type="primary" :loading="loading" @click="onConfirm_Notice()">确认</el-button>
+    </div>
+  </el-dialog>
 
     <el-dialog
       title="设定推荐奖"
@@ -175,11 +201,19 @@
 
 <script>
 import elDragDialog from "@/directive/el-drag-dialog";
-import { notice_setup, redpackage_setup, get_setup ,referral_setup} from "@/api/stock";
+import { notice_setup, redpackage_setup, get_setup ,referral_setup,UploadImage} from "@/api/stock";
 import { mapState, mapGetters } from "vuex";
 import moment from "moment";
 // import Update from './action/edit.vue'
 import Pagination from "@/components/Pagination";
+
+
+import { VueEditor, Quill } from 'vue2-editor'
+import { ImageDrop } from "quill-image-drop-module";
+import ImageResize from "quill-image-resize-module";
+
+Quill.register('modules/imageDrop', ImageDrop)
+Quill.register('modules/imageResize', ImageResize)
 
 export default {
   name: "OrderList",
@@ -187,6 +221,7 @@ export default {
   components: {
     // Update
     Pagination,
+    VueEditor
   },
   data() {
     return {
@@ -205,6 +240,24 @@ export default {
       lvl1:'',
       lvl2:'',
       lvl3:'',
+
+
+      customModulesForEditor: [
+        { alias: "imageDrop", module: ImageDrop },
+        { alias: "imageResize", module: ImageResize }
+      ],
+      editorSettings: {
+        modules: {
+          imageDrop: true,
+          imageResize: {}
+        }
+      },
+      form:{
+      imageName:'',
+      content:'',
+      imageUrl:''
+      },
+
     };
   },
   computed: {
@@ -217,6 +270,32 @@ export default {
     this.Get_Setup_Api();
   },
   methods: {
+         handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
+              const fd = new FormData()
+      fd.append("file", file, file.name);
+      //fd.append('avatar', raw.file, raw.file.name) // 因为要上传多个文件，所以需要遍历一下才行
+      // 不要直接使用我们的文件数组进行上传，你会发现传给后台的是两个Object
+      this.loading = true
+      UploadImage(fd).then(res => {
+        this.loading = false
+         console.log(res,"res,,,,,,,,,,,")
+         
+        if (res.code ==  0 ) {
+            this.form.imageUrl = res.data.url
+            //Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
+            Editor.insertEmbed(cursorLocation, "image", 'http://45.116.165.93:4195/statics/' + res.data.name);
+           this.$message.success(res.message)
+           resetUploader();
+          //this.onCancel()
+         // this.$emit('productEmit', true)
+        } else{
+            this.$message.error(res.message)
+        }
+      }).catch(err => {
+        console.error(err)
+        this.loading = false
+      })
+     },
     refreshOrder() {
       this.Get_Setup_Api();
     },
@@ -306,9 +385,9 @@ export default {
         });
     },
     onConfirm_Notice() {
-      if (this.notice == "") return this.$message.error("请输入公告内容");
+      if (this.form.content == "") return this.$message.error("请输入公告内容");
       let send_ = {
-        content: this.notice,
+        content: this.form.content,
       };
 
       this.listLoading = true;

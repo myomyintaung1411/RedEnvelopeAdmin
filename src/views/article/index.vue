@@ -127,35 +127,6 @@
    :destroy-on-close="true"
     @close="onCancel"
   >
-<!-- 
-    <el-form ref="form" :model="form" label-width="90px">
-      
- 
-      <el-form-item label="图片名称">
-        <el-input v-model="form.imageName" type="text" ></el-input>
-      </el-form-item>
-
-     <el-form-item label="图片对应的文章内容">
-        <el-input v-model="form.content"  type="textarea" :rows="4"></el-input>
-      </el-form-item>
-
-      <el-form-item label="产品图片">
-
-        <el-upload
-          ref="uploadCarousel"
-          class="avatar-uploader"
-          action="/opt/upload"
-          :show-file-list="false"
-          :before-upload="beforeUpload"
-         :http-request="handleUpload"
-         :multiple="false"
-        >
-          <el-button size="medium" icon="el-icon-upload" :loading="loading" type="text">点击上传</el-button>
-        </el-upload>
-      </el-form-item>
-      
-    </el-form> -->
-
     <div style="font-size: 20px; color: #212121; margin-bottom: 20px;">
       <el-input v-model="form.imageName" placeholder="请输入标题" />
     </div>
@@ -228,11 +199,13 @@ export default {
           imageResize: {}
         }
       },
+      
       form:{
         imageName:'',
       content:'',
       imageUrl:''
       },
+
       dialogFormVisible:false,
       articleList:{}
       
@@ -260,7 +233,8 @@ export default {
          
         if (res.code ==  0 ) {
             this.form.imageUrl = res.data.url
-            Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
+            //Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
+            Editor.insertEmbed(cursorLocation, "image", 'http://45.116.165.93:4195/statics/' + res.data.name);
            this.$message.success(res.message)
            resetUploader();
           //this.onCancel()
