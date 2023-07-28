@@ -94,7 +94,7 @@ export default {
       //this.$store.state.wsuse.connected = false
       //this.$store.state.wsuse.websocket = null
       this.$router.push(`/login`) // ?redirect=${this.$route.fullPath}
-      window.location.reload(true)
+      // window.location.reload(true)
     },
     goTo(type) {
       if (type == 1) {

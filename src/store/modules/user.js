@@ -124,6 +124,7 @@ const actions = {
           commit('RESET_STATE');
   
           resolve(); // Resolve the promise if everything succeeds
+          window.location.reload(true)
         } else {
           // If token removal fails, reject the promise with an error
           reject(new Error('Failed to remove the token.'));

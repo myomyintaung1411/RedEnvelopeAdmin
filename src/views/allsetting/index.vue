@@ -318,12 +318,23 @@ export default {
     },
 
     openRedpackage() {
+      if (this.setup_data?.amount && this.setup_data?.amount != '') {
+        this.red_pack_money = this.setup_data.amount
+      }
       this.redpackge_dialog = true;
     },
     openNotice() {
+      if (this.setup_data?.msg && this.setup_data?.msg != '') {
+        this.form.content = this.setup_data.msg
+      }
       this.notice_dialog = true;
     },
     openLevel() {
+      if (this.setup_data?.referral_reward3 && this.setup_data?.referral_reward3 != '') {
+        this.lvl1 = this.setup_data.referral_reward1
+        this.lvl2 = this.setup_data.referral_reward2
+        this.lvl3 = this.setup_data.referral_reward3
+      }
       this.level_dialog = true;
     },
     onCancel() {
