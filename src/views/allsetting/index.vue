@@ -118,9 +118,12 @@
             </div>
           </el-col>
           <el-col v-if="setup_data" :span="4">
-            <div class="grid-content bg-purple" style="display: flex; justify-content: center; align-items: center; height: 38px;">
-              <el-switch v-model="wstate" active-text="可提现" inactive-text="关闭中">
-            </el-switch>
+            <div class="grid-content bg-purple"
+              style="display: flex; justify-content: center; align-items: center; height: 38px;">
+              <el-switch v-model="setup_data.is_withdraw"  :active-value="1"
+              :inactive-value="0" active-text="可提现" inactive-text="关闭中"
+                @change="changeWithdrawStatus(setup_data.is_withdraw)">
+              </el-switch>
             </div>
           </el-col>
         </el-row>
@@ -211,6 +214,7 @@ import Pagination from "@/components/Pagination";
 import { VueEditor, Quill } from 'vue2-editor'
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
+import { withdraw_setup } from "@/api/user";
 
 Quill.register('modules/imageDrop', ImageDrop)
 Quill.register('modules/imageResize', ImageResize)
@@ -235,7 +239,13 @@ export default {
 
       notice: "",
       red_pack_money: "",
-      setup_data: '',
+      setup_data: {
+        is_withdraw: 0,
+        lvl1: '',
+        lvl2: '',
+        lvl3: '',
+        msg: ''
+      },
       level_dialog: false,
       lvl1: '',
       lvl2: '',
@@ -409,6 +419,28 @@ export default {
             this.$message.success(res.msg);
             this.Get_Setup_Api();
             this.onCancel();
+          } else {
+            this.$message.error(res.msg);
+          }
+          this.listLoading = false;
+        })
+        .catch((e) => {
+          this.listLoading = false;
+        });
+    },
+
+    changeWithdrawStatus(status) {
+      let st = status == 1 ? 1 : 0
+      let send = {
+        is_withdraw: st
+      }
+      withdraw_setup(send)
+        .then((res) => {
+          console.log("res ", res);
+          if (res.success && res.code == 200) {
+            this.$message.success(res.msg);
+            this.Get_Setup_Api();
+            // this.onCancel();
           } else {
             this.$message.error(res.msg);
           }

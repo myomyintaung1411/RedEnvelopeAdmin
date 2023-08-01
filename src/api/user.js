@@ -42,9 +42,26 @@ export function funRecord(data) {
     data
   })
 }
+
 export function memberInfo(data) {
   return request({
     url: '/ht/getMemberInfo',
+    method: 'post',
+    data
+  })
+}
+
+export function option_record(data) { // http://127.0.0.1/ht/get_option_record
+  return request({
+    url: `/ht/get_option_record`,
+    method: 'post',
+    data
+  })
+}
+
+export function withdraw_setup(data) { // http://127.0.0.1/ht/withdraw_setup
+  return request({
+    url: `/ht/withdraw_setup`,
     method: 'post',
     data
   })

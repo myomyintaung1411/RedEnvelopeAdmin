@@ -98,6 +98,12 @@ export const constantRoutes = [
         meta: { title: '日志记录', icon: 'el-icon-question' }
       },
       {
+        path: 'optionlist',
+        name: 'OptionList',
+        component: () => import('@/views/option/index'),
+        meta: { title: '操作记录', icon: 'el-icon-question' }
+      },
+      {
         path: 'withdrawlist',
         name: 'WithdrawList',
         component: () => import('@/views/withdraw/index'),

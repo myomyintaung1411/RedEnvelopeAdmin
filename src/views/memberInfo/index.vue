@@ -14,7 +14,7 @@
         style="margin-left: 10px; width: 150px"
       ></el-input> -->
 
-      <el-input v-model="realname" placeholder="姓名" size="small" clearable
+      <el-input v-model="find_name" placeholder="姓名" size="small" clearable
         style="margin-left: 10px; width: 150px"></el-input>
 
       <el-input v-model="id_code" placeholder="身份证号" size="small" clearable
@@ -89,7 +89,7 @@
 
       <el-table-column label="收获地址" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ }}</span>
+          <span>{{ scope.row.address }}</span>
         </template>
       </el-table-column>
 
@@ -99,15 +99,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="推荐分" show-overflow-tooltip width="110" align="center">
+      <el-table-column label="推荐分" show-overflow-tooltip width="110" align="right">
         <template slot-scope="scope">
-          <span style="color: blue">{{ }}</span>
+          <span style="color: blue">{{ scope.row.referal_score }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="红包积分" show-overflow-tooltip width="110" align="center">
+      <el-table-column label="红包积分" show-overflow-tooltip width="110" align="right">
         <template slot-scope="scope">
-          <span style="color: blue">{{ }}</span>
+          <span style="color: blue">{{ scope.row.redpack_score }}</span>
         </template>
       </el-table-column>
 
@@ -190,7 +190,12 @@ export default {
       perPage: 50,
       find_id: "",
       find_name: "",
-      nickname: ""
+      nickname: "",
+      amount_from: '',
+      amount_to: '',
+      phone: '',
+      id_code: '',
+      referalScore: ''
       // memberInfoData: {},
     };
   },
@@ -214,12 +219,16 @@ export default {
     },
     getMemberInfo() {
       let send_ = {
-        find_id: this.find_id,
-        find_name: this.find_name,
-        nickname: this.nickname,
         pageSize: this.perPage,
-        currentPage: this.page,
+        currentPage: this.page
       };
+      if (this.find_id.trim() != '') send_['find_id'] = this.find_id.trim()
+      if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
+      if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
+      if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      if (this.amount_from != '' && this.amount_to != '') {
+        send_['referalScore'] = this.amount_from + "-" + this.amount_to
+      }
       this.listLoading = true;
       memberInfo(send_)
         .then((res) => {

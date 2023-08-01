@@ -80,7 +80,7 @@
       </fieldset>
 
       <!-- <el-button @click="getNewMember">Get New Member</el-button>  -->
-<!-- 
+
        <el-card style="margin-top: 30px">
         <div style="position: relative; display: flex;">
             <el-button size="medium" icon="el-icon-refresh" type="text" @click="getDashboard">刷新</el-button>
@@ -91,55 +91,69 @@
                 <el-col :span="12">
                     <el-card shadow="hover">
                     <div style="display: flex; flex-direction: column">
-                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">用户总数量</span>
-                        <span style="font-size: 24px; color: #009688">{{ dash.total_user }}</span>
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">会员总数</span>
+                        <span style="font-size: 24px; color: #009688">{{ dash.member_count }}</span>
                     </div>
                     </el-card>
                 </el-col>
                 <el-col :span="12">
                     <el-card shadow="hover">
                         <div style="display: flex; flex-direction: column">
-                            <span style="padding-bottom: 5px; color: #808080; font-size: 26px">新增用户数(今日)</span>
-                            <span style="font-size: 24px; color: #F44336">{{ dash.today_register }}</span>
+                            <span style="padding-bottom: 5px; color: #808080; font-size: 26px">今日新增</span>
+                            <span style="font-size: 24px; color: #F44336">{{ dash.today_add }}</span>
                         </div>
                         </el-card>
                 </el-col>
             </el-row>
             <br>
             <el-row :gutter="20">
-                <el-col :span="12">
+                <el-col :span="8">
                     <el-card shadow="hover">
                     <div style="display: flex; flex-direction: column">
-                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">今日用户总充值</span>
-                        <span style="font-size: 24px; color: #FF9800">{{ dash.todayRecharge }} $</span>
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">昨日签到</span>
+                        <span style="font-size: 24px; color: #FF9800">{{ dash.yesterday_redpack_count }}</span>
                     </div>
                     </el-card>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="8">
                   <el-card shadow="hover">
                     <div style="display: flex; flex-direction: column">
-                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">今日用户总提现</span>
-                        <span style="font-size: 24px; color: #9C27B0">{{ dash.today_withdrawal }} $</span>
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">当日签到</span>
+                        <span style="font-size: 24px; color: #9C27B0">{{ dash.today_redpack_count }}</span>
+                    </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="8">
+                    <el-card shadow="hover">
+                    <div style="display: flex; flex-direction: column">
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">所有签到</span>
+                        <span style="font-size: 26px; color: #669800">{{ dash.all_redpack_count }}</span>
                     </div>
                     </el-card>
                 </el-col>
             </el-row>
             <br>
             <el-row :gutter="20">
-                <el-col :span="16">
+                <el-col :span="12">
                     <el-card shadow="hover">
                     <div style="display: flex; flex-direction: column">
-                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">所有统计</span>
-                        <span style="font-size: 26px; color: #669800">总充值：{{ dash.total_recharge }} $  总提现：{{ dash.total_withdrawal }} $</span>
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">推荐积分</span>
+                        <span style="font-size: 26px; color: #669800">{{ dash.referral_score }}</span>
                     </div>
                     </el-card>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="12">
+                    <el-card shadow="hover">
+                    <div style="display: flex; flex-direction: column">
+                        <span style="padding-bottom: 5px; color: #808080; font-size: 26px">实名人数</span>
+                        <span style="font-size: 26px; color: #669800">{{ dash.real_name_count }}</span>
+                    </div>
+                    </el-card>
                 </el-col>
             </el-row>
         </div>
         
-      </el-card>  -->
+      </el-card> 
 
       <Alert ref="alder" />
     </div>
@@ -161,40 +175,18 @@ export default {
       time_now: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       timer: null,
       interval: null
-    };
+    }
   },
   computed: {
       ...mapState({
-        //dash: state => state.stock.dashboard,
+        dash: state => state.stock.dashboard,
         //showd: state => state.stock.showd,
         //conws: state => state.wsuse.connected
       }),
       ...mapGetters(['info', 'token'])
   },
   mounted() {
-    // this.$store.dispatch('websocket/connectWebSocket')
-    console.log(this.token)
-    // let token = encodeURI(this.token)
-    // this.$connect(`ws://182.255.62.173:7878/websockets?key=A91DFH88SDIASX&token=${token}`, {
-    //   format: 'json',
-    //   reconnection: false,
-    //   reconnectionAttempts: 5,
-    //   reconnectionDelay: 3000,
-    // })
-    // console.log(this.$options)
-    // this.$options.sockets.onmessage = (data) => console.log('ws data ...... ', data)
-    // this.$store.dispatch('websocket/connectWebSocket')
-    //this.getDashboard()
-    //显示当前日期时间
-    // this.timer = setInterval(() => {
-    //   this.time_now = this.TranDate(new Date())
-    // }, 1000)
-
-    // if (this.showd) {
-    //   this.$refs.alder.dialogVisible = true
-    // }
-    // this.$store.state.stock.showd = false
-
+    this.getDashboard()
     // clearInterval(this.interval)
     // this.interval = null
 
@@ -226,40 +218,19 @@ export default {
     }
   },
   methods: {
-    // handleMessage(res) {//处理接收到的信息
-    //   console.log('res')
-    //   res = JSON.parse(res);
-    //   if (res.status == 200) {
-    //     switch (res.action) {
-    //         case 'searchCacheList'://获取协议信息
-    //           // this.cacheList =  res.data ? res.data : [];
-    //           break;
-    //         default:
-    //           break;
-    //     }
-    //   }
-    // },
     TranDate() {
       return moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
     },
     getDashboard() {
       getDashboardApi().then((res) => {
           // console.log('hhhhhhhhhhhhhhhhhhhhhh', res)
-        if (res.success && res.code == 1000) {
+        if (res.success && res.code == 200) {
           // this.$router.push({ path: this.redirect || '/' })
           this.$store.commit('stock/SET_DASHBOARD', res.data)
-        } else {
-          if (res.errors !== null) {
-            let key = Object.keys(res?.errors)[0]
-            this.$message.error(res?.errors[key])
-          } else {
-            this.$message.error(res.message)
-          }
         }
-        this.loading = false
       }).catch((e) => {
         console.log('eeeeeeeeeee ', e)
-        this.loading = false
+          this.$message.error(e)
       })
     }
   }

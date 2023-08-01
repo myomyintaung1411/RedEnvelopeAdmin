@@ -39,9 +39,9 @@
         style="margin-left: 10px; width: 150px;"></el-input>
 
       <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px;"
-        @click="getLoginRecord">搜索</el-button>
+        @click="getOptionRecord">搜索</el-button>
       <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 10px;"
-        @click="getLoginRecord">刷新</el-button>
+        @click="getOptionRecord">刷新</el-button>
     </div>
 
     <!-- <div style="display: flex; justify-content: flex-start; margin: 5px 0 0 0;">
@@ -54,7 +54,7 @@
     </div> -->
 
     <div style="margin: 5px;"></div>
-    <el-table v-loading="listLoading" :data="LoginList.record" element-loading-text="Loading"
+    <el-table v-loading="listLoading" :data="OptionList.record" element-loading-text="Loading"
       :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="750"
       highlight-current-row>
       <!-- <el-table-column label="操作" width="100" align="left">
@@ -83,11 +83,16 @@
           <span>{{ scope.row.create_at }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="操作备注" show-overflow-tooltip width="430" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.option }}</span>
+        </template>
+      </el-table-column>
     </el-table>
 
-    <div v-if="LoginList.count">
-      <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true" :total="LoginList.count"
-        :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
+    <div v-if="OptionList.count">
+      <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true"
+        :total="OptionList.count" :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
     </div>
 
     <!-- <Update ref="updateRef" :level-data="levelData" @levelEmit="levelEmit"  /> -->
@@ -95,8 +100,8 @@
 </template>
 
 <script>
-import { getLogApi, getLogFilterApi } from '@/api/stock'
-import { loginRecord } from '@/api/user'
+import { option_record } from '@/api/user'
+// import { loginRecord } from '@/api/user'
 import { mapState } from 'vuex'
 import moment from 'moment'
 // import Update from './action/edit.vue'
@@ -138,83 +143,50 @@ export default {
       perPage: 100,
       find_id: '',
       phone: '',
-      // LoginList:{}
+      // OptionList:{}
     }
   },
   computed: {
     ...mapState({
-      LoginList: state => state.stock.loginList,
+      OptionList: state => state.stock.optionList,
       // logFilter: state => state.stock.logFilter
     })
   },
   mounted() {
-    this.getLoginRecord()
+    console.log('mmmmmmmmmmmmmmmm')
+    this.getOptionRecord();
     // this.getLogFilter()
     // this.toDate = moment(new Date()).endOf('day').format('YYYY-MM-DD HH:mm:ss')
     // this.fromDate = moment(new Date()).startOf('day').format('YYYY-MM-DD HH:mm:ss')
     // setTimeout(() => {
-    //   this.getLog()
+    //   this.getOptionRecord()
     // }, 800)
   },
   methods: {
     refreshLog() {
       this.page = 1
-      this.getLog()
+      this.getOptionRecord()
     },
-    getLoginRecord() {
+    getOptionRecord() {
+      console.log('hhhhhhhhhhhhhhhhhhh')
       this.listLoading = true
       let data = {
         pageSize: this.perPage,
         currentPage: this.page,
         find_id: this.find_id
       }
-      loginRecord(data).then(res => {
+      option_record(data).then(res => {
         console.log(data, "send data to api ")
         console.log('res ', res)
         if (res.success && res.code == 200) {
-          // this.LoginList =  res.data
-          this.$store.commit('stock/SET_LOGIN_LIST', res.data)
+          // this.OptionList =  res.data
+          this.$store.commit('stock/SET_OPTION_LIST', res.data)
         }
         this.listLoading = false
       }).catch(e => {
         this.listLoading = false
       })
     },
-    getLog() {
-      // this.listLoading = true
-      // let send_ = {
-      //   fromDate: this.fromDate == '' ||  this.fromDate == null ? '' : moment(this.fromDate).format('YYYY-MM-DD HH:mm:ss'),
-      //   toDate: this.toDate == '' || this.toDate == null ? '' :  moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
-      //   page: this.page,
-      //   perPage: this.perPage
-      // }
-      // if (this.model !== '') {
-      //   send_['model'] = this.model
-      // }
-      // if (this.type !== '') {
-      //   send_['type'] = this.type
-      // }
-      // console.log('log send ', send_)
-      // getLogApi(send_).then(res => {
-      //   console.log('res ', res)
-      //   if (res.success && res.code === 1000) {
-      //     this.$store.commit('stock/SET_LOG_LIST', res.data)
-      //   }
-      //   this.listLoading = false
-      // }).catch(e => {
-      //   this.listLoading = false
-      // })
-    },
-
-    getLogFilter() {
-      // getLogFilterApi().then(res => {
-      //   console.log('log filter res : ', res)
-      //   if (res.success && res.code == 1000) {
-      //     this.$store.commit('stock/SET_LOGFILTER_LIST', res.data)
-      //   }
-      // })
-    },
-
 
 
 
@@ -224,7 +196,7 @@ export default {
     handlePagination(props) {
       props.action === 'limit' ? this.page = 1 : this.page = props.page
       this.perPage = props.limit
-      this.getLoginRecord()
+      this.getOptionRecord()
     },
 
     selectDate(time) {
@@ -261,7 +233,7 @@ export default {
           break
       }
       this.page = 1
-      this.getLog()
+      this.getOptionRecord()
     }
 
   }

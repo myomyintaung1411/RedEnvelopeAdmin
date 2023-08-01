@@ -2,8 +2,8 @@ import request from '@/utils/request'
 
 export function getDashboardApi() {
   return request({
-    url: '/dashboard',
-    method: 'get'
+    url: '/ht/get_homepage_data',
+    method: 'post'
   })
 }
 
@@ -79,6 +79,7 @@ export function get_setup(data) { // configlist of redamoumnt money and notice a
     data
   })
 }
+
 export function referral_setup(data) { // configlist of referral_setup
   return request({
     url: `/ht/referral_setup`,
@@ -86,4 +87,12 @@ export function referral_setup(data) { // configlist of referral_setup
     data
   })
 }
+
+// export function option_record(data) { // http://127.0.0.1/ht/get_option_record
+//   return request({
+//     url: `/ht/get_option_record`,
+//     method: 'post',
+//     data
+//   })
+// }
 
