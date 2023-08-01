@@ -13,21 +13,16 @@
         <el-button size="medium" icon="el-icon-upload" :loading="loading" type="text">点击上传轮播图</el-button>
       </el-upload> -->
 
-       <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加轮播图</el-button>
-      
-      <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 20px" @click="getCarousalList">刷新</el-button>
+      <el-button icon="el-icon-plus" type="text" size="medium" @click="createProduct">添加轮播图</el-button>
+
+      <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 20px"
+        @click="getCarousalList">刷新</el-button>
     </div>
-    
+
     <div style="margin: 10px;"></div>
-    <el-table
-      v-loading="listLoading"
-      :data="carousalList.record"
-      element-loading-text="Loading"
-      border
-      stripe
-      fit
-      highlight-current-row
-    >
+    <el-table v-loading="listLoading" :data="carousalList.record" element-loading-text="Loading"
+      :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit
+      highlight-current-row>
       <!-- <el-table-column align="left" label="ID" width="75">
         <template slot-scope="scope">
           {{ scope.$index }}
@@ -41,94 +36,65 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="轮播图 ID"
-        show-overflow-tooltip
-        width="100"
-        align="center"
-      >
+      <el-table-column label="轮播图 ID" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.chart_id}}</span>
+          <span>{{ scope.row.chart_id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="图片名称"
-        show-overflow-tooltip
-        width="180"
-        align="center"
-      >
+      <el-table-column label="图片名称" show-overflow-tooltip width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.img_name}}</span>
+          <span>{{ scope.row.img_name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="地址"
-        show-overflow-tooltip
-        width="100"
-        align="center"
-      >
+      <el-table-column label="地址" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.address}}</span>
+          <span>{{ scope.row.address }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="图片地址" show-overflow-tooltip width="230" align="center">
         <template slot-scope="scope">
-          <el-image 
-            style="width: 30px; height: 20px"
-            :src=" 'http://45.116.165.93:4195/statics/ '+  scope.row.url" 
-            :preview-src-list="  ['http://45.116.165.93:4195/statics/' + scope.row.url]">
+          <el-image style="width: 30px; height: 20px" :src="'http://45.116.165.93:4195/statics/ ' + scope.row.url"
+            :preview-src-list="['http://45.116.165.93:4195/statics/' + scope.row.url]">
           </el-image>
         </template>
       </el-table-column>
     </el-table>
 
 
-       <el-dialog
-    title="上传轮播图"
-    :visible.sync="dialogFormVisible"
-    :close-on-click-modal="false"
-    width="500px"
-    @close="onCancel"
-  >
+    <el-dialog title="上传轮播图" :visible.sync="dialogFormVisible" :close-on-click-modal="false" width="500px"
+      @close="onCancel">
 
-    <el-form ref="form" :model="form" label-width="90px">
-      
- 
-      <!-- <el-form-item label="图片名称">
+      <el-form ref="form" :model="form" label-width="90px">
+
+
+        <!-- <el-form-item label="图片名称">
         <el-input v-model="form.imageName" type="text" ></el-input>
       </el-form-item> -->
 
-      <el-form-item label="选择图片">
+        <el-form-item label="选择图片">
 
-        <el-upload
-          ref="uploadCarousel"
-          class="avatar-uploader"
-          action="/opt/upload"
-          :show-file-list="false"
-          :before-upload="beforeUpload"
-         :http-request="handleUpload"
-         :multiple="false"
-        >
-          <el-button size="medium" icon="el-icon-upload" :loading="loading" type="text">点击上传</el-button>
-        </el-upload>
-      </el-form-item>
-      
-    </el-form>
+          <el-upload ref="uploadCarousel" class="avatar-uploader" action="/opt/upload" :show-file-list="false"
+            :before-upload="beforeUpload" :http-request="handleUpload" :multiple="false">
+            <el-button size="medium" icon="el-icon-upload" :loading="loading" type="text">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
 
-    <div slot="footer">
-      <el-button @click="onCancel()">取消</el-button>
-      <el-button type="primary" :loading="loading" @click="onConfirm()">确认</el-button>
-    </div>
-  </el-dialog>
+      </el-form>
+
+      <div slot="footer">
+        <el-button @click="onCancel()">取消</el-button>
+        <el-button type="primary" :loading="loading" @click="onConfirm()">确认</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { upload_chart, get_chart_list, delete_chart,UploadImage } from '@/api/stock'
+import { upload_chart, get_chart_list, delete_chart, UploadImage } from '@/api/stock'
 import { mapState, mapGetters } from 'vuex'
 // import Edit from './action/edit.vue'
 import moment from 'moment'
@@ -153,19 +119,19 @@ export default {
       listLoading: true,
       configData: {},
       loading: false,
-      dialogFormVisible:false,
-            page: 1,
+      dialogFormVisible: false,
+      page: 1,
       perPage: 20,
-      carousalList:{},
-      form:{
-        imageUrl:'',
-        imgname:''
+      // carousalList: {},
+      form: {
+        imageUrl: '',
+        imgname: ''
       }
     }
   },
   computed: {
     ...mapState({
-      bannerList: state => state.stock.bannerList
+      carousalList: state => state.stock.carouselList
     }),
     ...mapGetters(['imageBase'])
   },
@@ -216,7 +182,7 @@ export default {
       }
       return isMatch && isLt2M
     },
-   handleUpload(raw) {
+    handleUpload(raw) {
       const fd = new FormData()
       fd.append("file", raw.file, raw.file.name);
       //fd.append('avatar', raw.file, raw.file.name) // 因为要上传多个文件，所以需要遍历一下才行
@@ -224,17 +190,17 @@ export default {
       this.loading = true
       UploadImage(fd).then(res => {
         this.loading = false
-         console.log(res,"res,,,,,,,,,,,")
-         
-        if (res.code ==  0 ) {
-            this.form.imageUrl = res.data.url
-            this.form.imgname = res.data.name
-           this.$message.success(res.message)
-            //this.getCarousalList()
+        console.log(res, "res,,,,,,,,,,,")
+
+        if (res.code == 0) {
+          this.form.imageUrl = res.data.url
+          this.form.imgname = res.data.name
+          this.$message.success(res.message)
+          //this.getCarousalList()
           this.onConfirm()
-         // this.$emit('productEmit', true)
-        } else{
-            this.$message.error(res.message)
+          // this.$emit('productEmit', true)
+        } else {
+          this.$message.error(res.message)
         }
       }).catch(err => {
         console.error(err)
@@ -242,21 +208,21 @@ export default {
       })
     },
 
-        onCancel(){
-        this.dialogFormVisible = false
-        this.form.imageUrl = ''
-        this.form.imgname = ''
+    onCancel() {
+      this.dialogFormVisible = false
+      this.form.imageUrl = ''
+      this.form.imgname = ''
     },
 
-        onConfirm(){
-        console.log(this.form.imageUrl)
-        if(this.form.imageUrl == '') return this.$message.error('请输入所有已归档的内容')
-        
-        let data = {
-            imgname:this.form.imgname,
-            address:1,
-            url:this.form.imageUrl
-        }
+    onConfirm() {
+      console.log(this.form.imageUrl)
+      if (this.form.imageUrl == '') return this.$message.error('请输入所有已归档的内容')
+
+      let data = {
+        imgname: this.form.imgname,
+        address: 1,
+        url: this.form.imageUrl
+      }
 
       //  const loading = this.$loading({
       //     lock: true,
@@ -264,44 +230,44 @@ export default {
       //     spinner: 'el-icon-loading',
       //     background: 'rgba(0, 0, 0, 0.7)'
       //   });
-       
-       upload_chart(data)
+
+      upload_chart(data)
         .then((res) => {
-            //loading.close();
+          //loading.close();
           console.log("res ", res);
-          
+
           if (res.success && res.code == 200) {
-             this.$message.success(res.msg)
+            this.$message.success(res.msg)
             this.getCarousalList()
-             this.dialogFormVisible = false
-                this.form.imageUrl = ''
-               this.form.imageName = ''
+            this.dialogFormVisible = false
+            this.form.imageUrl = ''
+            this.form.imageName = ''
             //this.$store.commit('stock/SET_ORDER_LIST', res.data)
-          }else{
-             this.$message.error(res.msg)
+          } else {
+            this.$message.error(res.msg)
           }
           this.listLoading = false;
         })
         .catch((e) => {
-           // loading.close();
+          // loading.close();
           this.listLoading = false;
         });
     },
 
-    getCarousalList(){
-       let send_ = {
+    getCarousalList() {
+      let send_ = {
         // chart_id: '',
         // address: 1,
         pageSize: this.perPage,
         currentPage: this.page,
       };
-     this.listLoading = true;
+      this.listLoading = true;
       get_chart_list(send_)
         .then((res) => {
           console.log("res ", res);
           if (res.success && res.code == 200) {
-            this.carousalList = res.data;
-            //this.$store.commit('stock/SET_ORDER_LIST', res.data)
+            // this.carousalList = res.data;
+            this.$store.commit('stock/SET_CAROUSEL_LIST', res.data)
           }
           this.listLoading = false;
         })
@@ -309,21 +275,21 @@ export default {
           this.listLoading = false;
         });
     },
-    deleteCarousal(row){
-        console.log(row)
-       let send_ = {
+    deleteCarousal(row) {
+      console.log(row)
+      let send_ = {
         chart_id: row.chart_id,
       };
-     this.listLoading = true;
+      this.listLoading = true;
       delete_chart(send_)
         .then((res) => {
           console.log("res ", res);
-           
+
           if (res.success && res.code == 200) {
             this.getCarousalList();
             this.$message.success(res.msg)
-          }else{
-              this.$message.error(res.msg)
+          } else {
+            this.$message.error(res.msg)
           }
           this.listLoading = false;
         })
@@ -331,10 +297,10 @@ export default {
           this.listLoading = false;
         });
     },
-       createProduct(){
-    this.dialogFormVisible = true
-   },
-   
+    createProduct() {
+      this.dialogFormVisible = true
+    },
+
   }
 }
 </script>

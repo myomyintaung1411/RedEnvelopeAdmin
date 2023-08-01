@@ -2,25 +2,22 @@
   <div class="app-container">
 
     <div style="display: flex; align-items: center;">
-      <el-date-picker
-        v-model="fromDate"
-        type="datetime"
-        size="small"
-        placeholder="选择日期时间">
+      <el-date-picker v-model="fromDate" type="datetime" size="small" placeholder="选择日期时间">
       </el-date-picker>
       <span style="margin: 0 10px">至</span>
-      <el-date-picker
-        v-model="toDate"
-        type="datetime"
-        size="small"
-        placeholder="选择日期时间">
+      <el-date-picker v-model="toDate" type="datetime" size="small" placeholder="选择日期时间">
       </el-date-picker>
 
-      <el-input v-model="find_id" placeholder="查询id" size="small" clearable style="margin-left: 10px; width: 150px;"></el-input>
+      <el-input v-model="find_id" placeholder="查询id" size="small" clearable
+        style="margin-left: 10px; width: 150px;"></el-input>
+      <el-input v-model="phone" placeholder="查询手机号" size="small" clearable
+        style="margin-left: 10px; width: 150px;"></el-input>
 
-     
-      <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px;" @click="getOrderSearch">搜索</el-button>
-      <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 10px;" @click="refreshOrder">刷新</el-button>
+
+      <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px;"
+        @click="getOrderSearch">搜索</el-button>
+      <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 10px;"
+        @click="refreshOrder">刷新</el-button>
     </div>
 
     <!-- <div style="display: flex; justify-content: flex-start; margin: 10px 0 0 0;">
@@ -31,43 +28,42 @@
       <el-button size="small" type="text" @click="selectDate('5')">本月</el-button>
       <el-button size="small" type="text" @click="selectDate('6')">上月</el-button>
     </div> -->
-    
+
     <div style="margin: 5px;"></div>
-    <el-table
-      v-loading="listLoading"
-      :data="fundData.record"
-      element-loading-text="Loading"
-      border
-      fit
-      stripe
-      height="720"
-      highlight-current-row
-    >
+    <el-table v-loading="listLoading" :data="fundData.record" element-loading-text="Loading"
+      :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border fit stripe height="750"
+      highlight-current-row>
       <el-table-column label="ID" show-overflow-tooltip width="70" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="类型" show-overflow-tooltip width="110" align="center">
+      <el-table-column label="类型" show-overflow-tooltip width="130" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.type }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="描述" show-overflow-tooltip width="130" align="center">
+      <el-table-column label="手机号" show-overflow-tooltip width="130" align="center">
+        <template slot-scope="scope">
+          <span>{{ }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="详情描述" show-overflow-tooltip width="200" align="center">
         <template slot-scope="scope">
           {{ scope.row.content }}
         </template>
       </el-table-column>
-      <el-table-column label="资金变化前" show-overflow-tooltip width="150" align="center">
+      <el-table-column label="资金变化前" show-overflow-tooltip width="150" align="right">
         <template slot-scope="scope">
-          <span>{{ scope.row.before_change }}</span>
+          <span style="color: orangered">{{ scope.row.before_change }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="资金变化后" show-overflow-tooltip width="150" align="center">
+      <el-table-column label="资金变化后" show-overflow-tooltip width="150" align="right">
         <template slot-scope="scope">
-          <span>{{ scope.row.after_change }}</span>
+          <span style="color: blue">{{ scope.row.after_change }}</span>
         </template>
       </el-table-column>
 
@@ -87,10 +83,11 @@
         </template>
       </el-table-column>
 
-    
+
     </el-table>
     <div v-if="fundData.count > 0">
-    <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true" :total="fundData.count" :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
+      <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true" :total="fundData.count"
+        :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
     </div>
   </div>
 </template>
@@ -107,14 +104,14 @@ export default {
   name: 'OrderList',
   directives: { elDragDialog },
   filters: {
-  //   statusFilter(status) {
-  //     const statusMap = {
-  //       published: 'success',
-  //       draft: 'gray',
-  //       deleted: 'danger'
-  //     }
-  //     return statusMap[status]
-  //   }
+    //   statusFilter(status) {
+    //     const statusMap = {
+    //       published: 'success',
+    //       draft: 'gray',
+    //       deleted: 'danger'
+    //     }
+    //     return statusMap[status]
+    //   }
     dateFilter(date) {
       if (date) {
         return moment(date).format("YYYY-MM-DD HH:mm:ss")
@@ -133,19 +130,20 @@ export default {
       listLoading: false,
       loading: false,
       page: 1,
-      perPage: 20,
+      perPage: 100,
       toDate: '',
       fromDate: '',
-      find_id:'',
-      fundData:{}
+      find_id: '',
+      phone: '',
+      // fundData: {}
     }
-  
+
   },
   computed: {
-    // ...mapState({
-    //   orderList: state => state.stock.orderList,
-    // }),
-   // ...mapGetters(['imageBase'])
+    ...mapState({
+      fundData: state => state.stock.funList,
+    })
+    // ...mapGetters(['imageBase'])
   },
   mounted() {
     // var routerParams = this.$route.params
@@ -180,20 +178,20 @@ export default {
       this.page = 1
       this.getFundRecord()
     },
-    getFundRecord(){
-            let send_ = {
-        start_time: this.fromDate == '' ||  this.fromDate == null ? '' : moment(this.fromDate).format('YYYY-MM-DD HH:mm:ss'),
-        end_time: this.toDate == '' || this.toDate == null ? '' :  moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
-        pageSize:this.perPage,
-        currentPage:this.page,
-       type:"",
-       find_id:this.find_id
+    getFundRecord() {
+      let send_ = {
+        start_time: this.fromDate == '' || this.fromDate == null ? '' : moment(this.fromDate).format('YYYY-MM-DD HH:mm:ss'),
+        end_time: this.toDate == '' || this.toDate == null ? '' : moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
+        pageSize: this.perPage,
+        currentPage: this.page,
+        type: "",
+        find_id: this.find_id
       }
       funRecord(send_).then(res => {
         console.log('res of fund recored data ********', res)
         if (res.success && res.code == 200) {
-          this.fundData = res.data
-          //this.$store.commit('stock/SET_ORDER_LIST', res.data)
+          // this.fundData = res.data
+          this.$store.commit('stock/SET_FUN_LIST', res.data)
         }
         this.listLoading = false
       }).catch(e => {

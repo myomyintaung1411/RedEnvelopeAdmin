@@ -6,21 +6,12 @@ const state = {
   audioUrl: require('@/assets/req_sound.mp3'),
   rcount: '',
   wcount: '',
-  configList: [],
-  bannerList: [],
-  levelList: [],
-  productList: {products: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  logList: {logs: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  logFilter: { model: [], type: [] },
-  transactionList: {logs: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  transactionListWithdraw: {logs: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  transactionList004: {logs: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  transactionList005: {logs: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  transactionFilter: { recharge_type: [], status: [], type: [], withdraw_type: [] },
-  rewardList: { rewards: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  messageList: { messages: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  userList: { users: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
-  orderList: { orders: [], meta: {page: 1, perPage: 10, total: 0, totalPage: 0}},
+  userList: { record: [], count: 0 },
+  funList: { record: [], count: 0 },
+  loginList: { record: [], count: 0 },
+  carouselList: { record: [], count: 0 },
+  articleList: { record: [], count: 0 },
+  withdrawList: { list: [], total: 0 },
 }
 
 const mutations = {
@@ -38,53 +29,23 @@ const mutations = {
     }
     state.wcount = config == 0 ? '' : config
   },
-  SET_DASHBOARD: (state, config) => {
-    state.dashboard = config
-  },
-  SET_CONFIG_LIST: (state, config) => {
-    state.configList = config
-  },
-  SET_BANNER_LIST: (state, config) => {
-    state.bannerList = config
-  },
-  SET_LEVEL_LIST: (state, config) => {
-    state.levelList = config
-  },
-  SET_PRODUCT_LIST: (state, config) => {
-    state.productList = config
-  },
-  SET_LOG_LIST: (state, config) => {
-    state.logList = config
-  },
-  SET_LOGFILTER_LIST: (state, config) => {
-    state.logFilter = config
-  },
-  SET_TRANSACTION_LIST: (state, config) => {
-    state.transactionList = config
-  },
-  SET_TRANSACTION_LIST_W: (state, config) => {
-    state.transactionListWithdraw = config
-  },
-  SET_TRANSACTION_LIST_004: (state, config) => {
-    state.transactionList004 = config
-  },
-  SET_TRANSACTION_LIST_005: (state, config) => {
-    state.transactionList005 = config
-  },
-  SET_TRANSACTIONFILTER_LIST: (state, config) => {
-    state.transactionFilter = config
-  },
-  SET_REWARD_LIST: (state, config) => {
-    state.rewardList.rewards = config
-  },
-  SET_MESSAGE_LIST: (state, config) => {
-    state.messageList = config
-  },
   SET_USER_LIST: (state, config) => {
     state.userList = config
   },
-  SET_ORDER_LIST: (state, config) => {
-    state.orderList = config
+  SET_FUN_LIST: (state, config) => {
+    state.funList = config
+  },
+  SET_LOGIN_LIST: (state, config) => {
+    state.loginList = config
+  },
+  SET_CAROUSEL_LIST: (state, config) => {
+    state.carouselList = config
+  },
+  SET_ARTICAL_LIST: (state, config) => {
+    state.articleList = config
+  },
+  SET_WITHDRAW_LIST: (state, config) => {
+    state.withdrawList = config
   },
 }
 

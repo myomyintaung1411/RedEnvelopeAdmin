@@ -34,6 +34,7 @@
         </el-option>
       </el-select> -->
        <el-input v-model="find_id" placeholder="查询id(可选）" size="small" clearable style="margin-left: 10px; width: 150px;"></el-input>
+       <el-input v-model="phone" placeholder="查询手机号(可选）" size="small" clearable style="margin-left: 10px; width: 150px;"></el-input>
 
       <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px;" @click="getLoginRecord">搜索</el-button>
       <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 10px;" @click="getLoginRecord">刷新</el-button>
@@ -53,10 +54,11 @@
       v-loading="listLoading"
       :data="LoginList.record"
       element-loading-text="Loading"
+      :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }"
       border
       stripe
       fit
-      height="720"
+      height="750"
       highlight-current-row
     >
       <!-- <el-table-column label="操作" width="100" align="left">
@@ -74,13 +76,13 @@
           <span>{{ scope.row.account }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录ip" show-overflow-tooltip width="430" align="left">
+      <el-table-column label="登录ip" show-overflow-tooltip width="400" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.login_ip }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="创建时间" show-overflow-tooltip width="170" align="left">
+      <el-table-column label="创建时间" show-overflow-tooltip width="230" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.create_at }}</span>
         </template>
@@ -136,15 +138,16 @@ export default {
       model: '',
       type: '',
       page: 1,
-      perPage: 20,
+      perPage: 100,
       find_id:'',
-      LoginList:{}
+      phone: '',
+      // LoginList:{}
     }
   },
   computed: {
     ...mapState({
-      logList: state => state.stock.logList,
-      logFilter: state => state.stock.logFilter
+      LoginList: state => state.stock.loginList,
+      // logFilter: state => state.stock.logFilter
     })
   },
   mounted() {
@@ -172,8 +175,8 @@ export default {
       console.log(data,"send data to api ")
         console.log('res ', res)
         if (res.success && res.code == 200) {
-          this.LoginList =  res.data
-          //this.$store.commit('stock/SET_LOG_LIST', res.data)
+          // this.LoginList =  res.data
+          this.$store.commit('stock/SET_LOGIN_LIST', res.data)
         }
         this.listLoading = false
       }).catch(e => {

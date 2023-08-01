@@ -1,21 +1,10 @@
 <template>
   <div class="app-container">
     <div style="display: flex; align-items: center">
-      <el-input
-        v-model="find_id"
-        placeholder="ID"
-        size="small"
-        clearable
-        style="width: 150px"
-      ></el-input>
-    
-      <el-input
-        v-model="phone"
-        placeholder="手机号"
-        size="small"
-        clearable
-        style="margin-left: 10px; width: 150px"
-      ></el-input>
+      <el-input v-model="find_id" placeholder="ID" size="small" clearable style="width: 150px"></el-input>
+
+      <el-input v-model="phone" placeholder="手机号" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
 
       <!-- <el-input
         v-model="nickname"
@@ -25,54 +14,22 @@
         style="margin-left: 10px; width: 150px"
       ></el-input> -->
 
-      <el-input
-        v-model="realname"
-        placeholder="姓名"
-        size="small"
-        clearable
-        style="margin-left: 10px; width: 150px"
-      ></el-input>
+      <el-input v-model="realname" placeholder="姓名" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
 
-      <el-input
-        v-model="id_code"
-        placeholder="身份证号"
-        size="small"
-        clearable
-        style="margin-left: 10px; width: 150px"
-      ></el-input>
+      <el-input v-model="id_code" placeholder="身份证号" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
 
-      <el-input
-        v-model="amount_from"
-        placeholder="推荐金从"
-        size="small"
-        clearable
-        style="margin-left: 10px; width: 150px"
-      ></el-input>
-        <span style="margin-left: 5px;">-</span>
-      <el-input
-        v-model="amount_to"
-        placeholder="至推荐金"
-        size="small"
-        clearable
-        style="margin-left: 10px; width: 150px"
-      ></el-input>
+      <el-input v-model="amount_from" placeholder="推荐金从" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
+      <span style="margin-left: 5px;">-</span>
+      <el-input v-model="amount_to" placeholder="至推荐金" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
 
-      <el-button
-        icon="el-icon-search"
-        type="text"
-        size="medium"
-        style="margin-left: 10px"
-        @click="getOrderSearch"
-        >搜索</el-button
-      >
-      <el-button
-        icon="el-icon-refresh"
-        type="text"
-        size="medium"
-        style="margin-left: 10px"
-        @click="refreshOrder"
-        >刷新</el-button
-      >
+      <el-button icon="el-icon-search" type="text" size="medium" style="margin-left: 10px"
+        @click="getOrderSearch">搜索</el-button>
+      <el-button icon="el-icon-refresh" type="text" size="medium" style="margin-left: 10px"
+        @click="refreshOrder">刷新</el-button>
     </div>
 
     <!-- <div style="display: flex; justify-content: flex-start; margin: 10px 0 0 0;">
@@ -85,161 +42,89 @@
     </div> -->
 
     <div style="margin: 5px"></div>
-    <el-table
-      v-loading="listLoading"
-      :data="memberInfoData.record"
-      element-loading-text="Loading"
-      border
-      stripe
-      fit
-      height="740"
-      highlight-current-row
-    >
-      <el-table-column
-        label="ID"
-        show-overflow-tooltip
-        width="70"
-        align="center"
-      >
+    <el-table v-loading="listLoading" :data="memberInfoData.record" element-loading-text="Loading"
+      :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="740"
+      highlight-current-row>
+      <el-table-column label="ID" show-overflow-tooltip width="70" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="手机号"
-        show-overflow-tooltip
-        width="120"
-        align="center"
-      >
+      <el-table-column label="手机号" show-overflow-tooltip width="120" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
-      
-      <el-table-column
-        label="姓名"
-        show-overflow-tooltip
-        width="140"
-        align="center"
-      >
+
+      <el-table-column label="姓名" show-overflow-tooltip width="140" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.card_name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="邀请码"
-        show-overflow-tooltip
-        width="100"
-        align="center"
-      >
+      <el-table-column label="邀请码" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
-          <span>{{  }}</span>
+          <span>{{ }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="身份证号"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
+      <el-table-column label="身份证号" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.id_code }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="银行名称"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
+      <el-table-column label="银行名称" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.bank }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="银行卡号"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
+      <el-table-column label="银行卡号" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.bank_card }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="收获地址"
-        show-overflow-tooltip
-        width="110"
-        align="center"
-      >
+      <el-table-column label="收获地址" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
-          <span>{{  }}</span>
+          <span>{{ }}</span>
         </template>
       </el-table-column>
 
       <el-table-column label="总余额" show-overflow-tooltip width="110" align="right">
         <template slot-scope="scope">
-          <span>{{ scope.row.balance }}</span>
+          <span style="color: blue">{{ scope.row.balance }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="推荐分"
-        show-overflow-tooltip
-        width="110"
-        align="center"
-      >
+      <el-table-column label="推荐分" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
-          <span>{{  }}</span>
+          <span style="color: blue">{{ }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="红包积分"
-        show-overflow-tooltip
-        width="110"
-        align="center"
-      >
+      <el-table-column label="红包积分" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
-          <span>{{  }}</span>
+          <span style="color: blue">{{ }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="直属上级"
-        show-overflow-tooltip
-        width="100"
-        align="center"
-      >
+      <el-table-column label="直属上级" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.reference_name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="注册日期"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
+      <el-table-column label="注册日期" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.regist_time }}</span>
         </template>
       </el-table-column>
 
-      
-      <el-table-column
-        label="登录ip"
-        show-overflow-tooltip
-        width="150"
-        align="center"
-      >
+
+      <el-table-column label="登录ip" show-overflow-tooltip width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.login_ip }}</span>
         </template>
@@ -254,17 +139,11 @@
           <span>{{ scope.row.login_time }}</span>
         </template>
       </el-table-column> -->
-      
+
     </el-table>
     <div v-if="memberInfoData.count">
-      <Pagination
-        style="float: right; margin-top: 20px; margin-right: -20px"
-        :background="true"
-        :total="memberInfoData.count"
-        :page.sync="page"
-        :limit.sync="perPage"
-        @pagination="PaginationEvent"
-      />
+      <Pagination style="float: right; margin-top: 20px; margin-right: -20px" :background="true"
+        :total="memberInfoData.count" :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
     </div>
   </div>
 </template>
@@ -308,17 +187,17 @@ export default {
       loading: false,
 
       page: 1,
-      perPage: 20,
+      perPage: 50,
       find_id: "",
       find_name: "",
-      nickname: "",
-      memberInfoData: {},
+      nickname: ""
+      // memberInfoData: {},
     };
   },
   computed: {
-    // ...mapState({
-    //   orderList: state => state.stock.orderList,
-    // }),
+    ...mapState({
+      memberInfoData: state => state.stock.userList,
+    }),
     // ...mapGetters(['imageBase'])
   },
   mounted() {
@@ -341,13 +220,13 @@ export default {
         pageSize: this.perPage,
         currentPage: this.page,
       };
-       this.listLoading = true;
+      this.listLoading = true;
       memberInfo(send_)
         .then((res) => {
           console.log("res ", res);
           if (res.success && res.code == 200) {
-            this.memberInfoData = res.data;
-            //this.$store.commit('stock/SET_ORDER_LIST', res.data)
+            // this.memberInfoData = res.data;
+            this.$store.commit('stock/SET_USER_LIST', res.data)
           }
           this.listLoading = false;
         })

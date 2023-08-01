@@ -35,13 +35,13 @@
           </el-col>
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">红包金额</div>
+              <div style="line-height: 36px;text-align:center; color: #1060B1;">红包金额</div>
             </div>
           </el-col>
 
           <el-col v-if="setup_data" :span="12">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center;color:red">{{ setup_data.amount }}</div>
+              <div style="line-height: 36px;text-align:center;">{{ setup_data.amount }}</div>
             </div>
           </el-col>
         </el-row>
@@ -57,13 +57,13 @@
           </el-col>
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">公告内容</div>
+              <div style="line-height: 36px;text-align:center;color: #1060B1;">公告内容</div>
             </div>
           </el-col>
 
           <el-col v-if="setup_data" :span="12">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center;color:red;padding:3px;font-size:14px;
+              <div style="line-height: 36px;text-align:center;padding:3px;font-size:14px;
                 overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">{{ setup_data.msg }}
               </div>
             </div>
@@ -83,21 +83,21 @@
 
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">一级推荐奖 : <span
-                  style="color:red">{{ setup_data.referral_reward1 }}</span></div>
+              <div style="line-height: 36px;text-align:center;color: #1060B1;">一级推荐奖 : <span style="color:red">{{
+                setup_data.referral_reward1 }}</span></div>
             </div>
           </el-col>
 
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">二级推荐奖 : <span
-                  style="color:red">{{ setup_data.referral_reward2 }}</span></div>
+              <div style="line-height: 36px;text-align:center;color: #1060B1;">二级推荐奖 : <span style="color:red">{{
+                setup_data.referral_reward2 }}</span></div>
             </div>
           </el-col>
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">三级推荐奖 : <span
-                  style="color:red">{{ setup_data.referral_reward3 }}</span></div>
+              <div style="line-height: 36px;text-align:center;color: #1060B1;">三级推荐奖 : <span style="color:red">{{
+                setup_data.referral_reward3 }}</span></div>
             </div>
           </el-col>
         </el-row>
@@ -107,24 +107,20 @@
         <el-row :gutter="20">
           <el-col :span="3">
             <div>
-              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px"
-                >设定提现状态
+              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px">设定提现状态
               </el-button>
             </div>
           </el-col>
 
           <el-col v-if="setup_data" :span="4">
             <div class="grid-content bg-purple">
-              <div style="line-height: 36px;text-align:center">可提现状态</div>
+              <div style="line-height: 36px;text-align:center;color: #1060B1;">可提现状态</div>
             </div>
           </el-col>
           <el-col v-if="setup_data" :span="4">
-            <div class="grid-content bg-purple" style="display: flex; justify-content: center; align-items: center;">
-              <el-switch
-                v-model="wstate"
-                active-text="可提现"
-                inactive-text="关闭中">
-              </el-switch>
+            <div class="grid-content bg-purple" style="display: flex; justify-content: center; align-items: center; height: 38px;">
+              <el-switch v-model="wstate" active-text="可提现" inactive-text="关闭中">
+            </el-switch>
             </div>
           </el-col>
         </el-row>
@@ -442,14 +438,13 @@ export default {
 
 .bg-purple {
   //   background: #d3dce6;
-  border: 1px solid #000;
-
+  border: 1px solid #f5f5f5;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-
 }
 
 .row-bg {
