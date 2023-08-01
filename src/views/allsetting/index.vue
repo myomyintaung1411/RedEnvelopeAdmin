@@ -18,94 +18,123 @@
         >设定公告内容</el-button
       > -->
 
-      <el-button
-        icon="el-icon-refresh"
-        type="primary"
-        size="medium"
-        style="margin-left: 10px"
-        @click="refreshOrder"
-        >刷新</el-button
-      >
+      <el-button icon="el-icon-refresh" type="primary" size="medium" style="margin-left: 10px"
+        @click="refreshOrder">刷新</el-button>
     </div>
 
     <div style="margin: 5px"></div>
 
-    <div   style="margin-top: 20px;min-width:1250px;">
-        <div >
-         <el-row :gutter="20">
-            <el-col :span="3">
+    <div style="margin-top: 20px;min-width:1250px;">
+      <div>
+        <el-row :gutter="20">
+          <el-col :span="3">
             <div>
-                <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px" @click="openRedpackage" >设定红包金额</el-button>
+              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px"
+                @click="openRedpackage">设定红包金额</el-button>
             </div>
-            </el-col>
-            <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
-                <div style="line-height: 36px;text-align:center">红包金额</div>
-                </div>
-            </el-col>
+          </el-col>
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">红包金额</div>
+            </div>
+          </el-col>
 
-            <el-col v-if="setup_data" :span="12"><div class="grid-content bg-purple">
-                <div style="line-height: 36px;text-align:center;color:red">{{setup_data.amount}}</div>
-                </div>
-            </el-col>
+          <el-col v-if="setup_data" :span="12">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center;color:red">{{ setup_data.amount }}</div>
+            </div>
+          </el-col>
         </el-row>
-     </div>
+      </div>
 
-    <div style="margin-top:10px">
-         <el-row :gutter="20">
-        <el-col :span="3">
-         <div>
-      <el-button icon="el-icon-setting" type="primary" size="medium"  style="margin-left: 10px"   @click="openNotice" >设定公告内容</el-button >
-         </div>
-        </el-col>
-        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
-            <div style="line-height: 36px;text-align:center">公告内容</div>
+      <div style="margin-top:10px">
+        <el-row :gutter="20">
+          <el-col :span="3">
+            <div>
+              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px"
+                @click="openNotice">设定公告内容</el-button>
             </div>
-        </el-col>
+          </el-col>
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">公告内容</div>
+            </div>
+          </el-col>
 
-        <el-col v-if="setup_data" :span="12"><div class="grid-content bg-purple">
-            <div style="line-height: 36px;text-align:center;color:red;padding:3px;font-size:14px;">{{setup_data.msg}}</div>
-            </div></el-col>
-      </el-row>
+          <el-col v-if="setup_data" :span="12">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center;color:red;padding:3px;font-size:14px;
+                overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%;">{{ setup_data.msg }}
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div style="margin-top:10px">
+        <el-row :gutter="20">
+          <el-col :span="3">
+            <div>
+              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px"
+                @click="openLevel">设定推荐奖
+              </el-button>
+            </div>
+          </el-col>
+
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">一级推荐奖 : <span
+                  style="color:red">{{ setup_data.referral_reward1 }}</span></div>
+            </div>
+          </el-col>
+
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">二级推荐奖 : <span
+                  style="color:red">{{ setup_data.referral_reward2 }}</span></div>
+            </div>
+          </el-col>
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">三级推荐奖 : <span
+                  style="color:red">{{ setup_data.referral_reward3 }}</span></div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+
+      <div style="margin-top:10px">
+        <el-row :gutter="20">
+          <el-col :span="3">
+            <div>
+              <el-button icon="el-icon-setting" type="primary" size="medium" style="margin-left: 10px"
+                >设定提现状态
+              </el-button>
+            </div>
+          </el-col>
+
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple">
+              <div style="line-height: 36px;text-align:center">可提现状态</div>
+            </div>
+          </el-col>
+          <el-col v-if="setup_data" :span="4">
+            <div class="grid-content bg-purple" style="display: flex; justify-content: center; align-items: center;">
+              <el-switch
+                v-model="wstate"
+                active-text="可提现"
+                inactive-text="关闭中">
+              </el-switch>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+
+
     </div>
 
-    <div style="margin-top:10px">
-         <el-row :gutter="20">
-        <el-col :span="3">
-         <div>
-      <el-button icon="el-icon-setting" type="primary" size="medium"  style="margin-left: 10px"   @click="openLevel" >设定推荐奖
-</el-button >
-         </div>
-        </el-col>
-
-        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
-            <div style="line-height: 36px;text-align:center">一级推荐奖 : <span style="color:red">{{setup_data.referral_reward1}}</span></div>
-            </div>
-        </el-col>
-
-        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
-            <div style="line-height: 36px;text-align:center">二级推荐奖  : <span style="color:red">{{setup_data.referral_reward2}}</span></div>
-            </div>
-        </el-col>
-        <el-col v-if="setup_data" :span="4"><div class="grid-content bg-purple">
-            <div style="line-height: 36px;text-align:center">三级推荐奖 : <span style="color:red">{{setup_data.referral_reward3}}</span></div>
-            </div>
-        </el-col>
-
-
-
-      </el-row>
-    </div>
-
-
-    </div>
-
-    <el-dialog
-      title="设定红包金额"
-      :visible.sync="redpackge_dialog"
-      :close-on-click-modal="false"
-      width="500px"
-      @close="onCancel"
-    >
+    <el-dialog title="设定红包金额" :visible.sync="redpackge_dialog" :close-on-click-modal="false" width="500px"
+      @close="onCancel">
       <el-form ref="form" label-width="90px">
         <el-form-item label="金额">
           <el-input v-model="red_pack_money" type="number"></el-input>
@@ -114,12 +143,7 @@
 
       <div slot="footer">
         <el-button @click="onCancel()">取消</el-button>
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="onConfirm_Red_Pack()"
-          >确认</el-button
-        >
+        <el-button type="primary" :loading="loading" @click="onConfirm_Red_Pack()">确认</el-button>
       </div>
     </el-dialog>
 
@@ -144,42 +168,24 @@
       </div>
     </el-dialog> -->
 
-        <el-dialog
-    title="设定公告内容"
-    :visible.sync="notice_dialog"
-    :close-on-click-modal="false"
-   fullscreen
-   :destroy-on-close="true"
-    @close="onCancel"
-  >
-    <div>
-      <VueEditor
-        id="editor"
-        useCustomImageHandler
-        :editorOptions="editorSettings"
-        @image-added="handleImageAdded"
-        v-model="form.content"
-        style="height: 600px;"
-      >
-      </VueEditor>
-    </div>
+    <el-dialog title="设定公告内容" :visible.sync="notice_dialog" :close-on-click-modal="false" fullscreen
+      :destroy-on-close="true" @close="onCancel">
+      <div>
+        <VueEditor id="editor" useCustomImageHandler :editorOptions="editorSettings" @image-added="handleImageAdded"
+          v-model="form.content" style="height: 600px;">
+        </VueEditor>
+      </div>
 
-    <div slot="footer" style="margin-top:30px">
-      <el-button @click="onCancel()">取消</el-button>
-      <el-button type="primary" :loading="loading" @click="onConfirm_Notice()">确认</el-button>
-    </div>
-  </el-dialog>
+      <div slot="footer" style="margin-top:30px">
+        <el-button @click="onCancel()">取消</el-button>
+        <el-button type="primary" :loading="loading" @click="onConfirm_Notice()">确认</el-button>
+      </div>
+    </el-dialog>
 
-    <el-dialog
-      title="设定推荐奖"
-      :visible.sync="level_dialog"
-      :close-on-click-modal="false"
-      width="500px"
-      @close="onCancel"
-    >
+    <el-dialog title="设定推荐奖" :visible.sync="level_dialog" :close-on-click-modal="false" width="500px" @close="onCancel">
       <el-form ref="form" label-width="90px">
         <el-form-item label="一级推荐奖">
-          <el-input v-model="lvl1" type="number" ></el-input>
+          <el-input v-model="lvl1" type="number"></el-input>
         </el-form-item>
         <el-form-item label="二级推荐奖">
           <el-input v-model="lvl2" type="number"></el-input>
@@ -191,9 +197,7 @@
 
       <div slot="footer">
         <el-button @click="onCancel()">取消</el-button>
-        <el-button type="primary" :loading="loading" @click="onConfirm_level()"
-          >确认</el-button
-        >
+        <el-button type="primary" :loading="loading" @click="onConfirm_level()">确认</el-button>
       </div>
     </el-dialog>
   </div>
@@ -201,7 +205,7 @@
 
 <script>
 import elDragDialog from "@/directive/el-drag-dialog";
-import { notice_setup, redpackage_setup, get_setup ,referral_setup,UploadImage} from "@/api/stock";
+import { notice_setup, redpackage_setup, get_setup, referral_setup, UploadImage } from "@/api/stock";
 import { mapState, mapGetters } from "vuex";
 import moment from "moment";
 // import Update from './action/edit.vue'
@@ -235,12 +239,12 @@ export default {
 
       notice: "",
       red_pack_money: "",
-      setup_data:'',
-      level_dialog:false,
-      lvl1:'',
-      lvl2:'',
-      lvl3:'',
-
+      setup_data: '',
+      level_dialog: false,
+      lvl1: '',
+      lvl2: '',
+      lvl3: '',
+      wstate: true,
 
       customModulesForEditor: [
         { alias: "imageDrop", module: ImageDrop },
@@ -252,10 +256,10 @@ export default {
           imageResize: {}
         }
       },
-      form:{
-      imageName:'',
-      content:'',
-      imageUrl:''
+      form: {
+        imageName: '',
+        content: '',
+        imageUrl: ''
       },
 
     };
@@ -270,32 +274,32 @@ export default {
     this.Get_Setup_Api();
   },
   methods: {
-         handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
-              const fd = new FormData()
+    handleImageAdded: function (file, Editor, cursorLocation, resetUploader) {
+      const fd = new FormData()
       fd.append("file", file, file.name);
       //fd.append('avatar', raw.file, raw.file.name) // 因为要上传多个文件，所以需要遍历一下才行
       // 不要直接使用我们的文件数组进行上传，你会发现传给后台的是两个Object
       this.loading = true
       UploadImage(fd).then(res => {
         this.loading = false
-         console.log(res,"res,,,,,,,,,,,")
-         
-        if (res.code ==  0 ) {
-            this.form.imageUrl = res.data.url
-            //Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
-            Editor.insertEmbed(cursorLocation, "image", 'http://45.116.165.93:4195/statics/' + res.data.name);
-           this.$message.success(res.message)
-           resetUploader();
+        console.log(res, "res,,,,,,,,,,,")
+
+        if (res.code == 0) {
+          this.form.imageUrl = res.data.url
+          //Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
+          Editor.insertEmbed(cursorLocation, "image", 'http://45.116.165.93:4195/statics/' + res.data.name);
+          this.$message.success(res.message)
+          resetUploader();
           //this.onCancel()
-         // this.$emit('productEmit', true)
-        } else{
-            this.$message.error(res.message)
+          // this.$emit('productEmit', true)
+        } else {
+          this.$message.error(res.message)
         }
       }).catch(err => {
         console.error(err)
         this.loading = false
       })
-     },
+    },
     refreshOrder() {
       this.Get_Setup_Api();
     },
@@ -432,22 +436,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .el-col {
   border-radius: 4px;
 }
 
 .bg-purple {
-//   background: #d3dce6;
- border:1px solid #000;
- 
+  //   background: #d3dce6;
+  border: 1px solid #000;
+
 }
 
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-  
+
 }
+
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;

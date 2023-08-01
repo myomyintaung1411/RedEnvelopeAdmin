@@ -8,17 +8,50 @@
         clearable
         style="width: 150px"
       ></el-input>
+    
       <el-input
-        v-model="find_name"
-        placeholder="帐号"
+        v-model="phone"
+        placeholder="手机号"
+        size="small"
+        clearable
+        style="margin-left: 10px; width: 150px"
+      ></el-input>
+
+      <!-- <el-input
+        v-model="nickname"
+        placeholder="昵称"
+        size="small"
+        clearable
+        style="margin-left: 10px; width: 150px"
+      ></el-input> -->
+
+      <el-input
+        v-model="realname"
+        placeholder="姓名"
         size="small"
         clearable
         style="margin-left: 10px; width: 150px"
       ></el-input>
 
       <el-input
-        v-model="nickname"
-        placeholder="昵称"
+        v-model="id_code"
+        placeholder="身份证号"
+        size="small"
+        clearable
+        style="margin-left: 10px; width: 150px"
+      ></el-input>
+
+      <el-input
+        v-model="amount_from"
+        placeholder="推荐金从"
+        size="small"
+        clearable
+        style="margin-left: 10px; width: 150px"
+      ></el-input>
+        <span style="margin-left: 5px;">-</span>
+      <el-input
+        v-model="amount_to"
+        placeholder="至推荐金"
         size="small"
         clearable
         style="margin-left: 10px; width: 150px"
@@ -59,7 +92,7 @@
       border
       stripe
       fit
-      height="720"
+      height="740"
       highlight-current-row
     >
       <el-table-column
@@ -74,50 +107,118 @@
       </el-table-column>
 
       <el-table-column
-        label="帐号"
+        label="手机号"
+        show-overflow-tooltip
+        width="120"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.phone }}</span>
+        </template>
+      </el-table-column>
+      
+      <el-table-column
+        label="姓名"
+        show-overflow-tooltip
+        width="140"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.card_name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="邀请码"
+        show-overflow-tooltip
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{  }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="身份证号"
+        show-overflow-tooltip
+        width="170"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.id_code }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="银行名称"
+        show-overflow-tooltip
+        width="170"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.bank }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="银行卡号"
+        show-overflow-tooltip
+        width="170"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.bank_card }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        label="收获地址"
         show-overflow-tooltip
         width="110"
         align="center"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.account }}</span>
+          <span>{{  }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="总余额" show-overflow-tooltip width="110" align="right">
+        <template slot-scope="scope">
+          <span>{{ scope.row.balance }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        label="昵称"
+        label="推荐分"
         show-overflow-tooltip
-        width="130"
+        width="110"
         align="center"
       >
         <template slot-scope="scope">
-          {{ scope.row.nickname }}
+          <span>{{  }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column
+        label="红包积分"
+        show-overflow-tooltip
+        width="110"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{  }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column
         label="直属上级"
         show-overflow-tooltip
-        width="150"
+        width="100"
         align="center"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.reference_name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="登录ip"
-        show-overflow-tooltip
-        width="150"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.login_ip }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="余额" show-overflow-tooltip width="90" align="right">
-        <template slot-scope="scope">
-          <span>{{ scope.row.balance }}</span>
         </template>
       </el-table-column>
 
@@ -131,7 +232,19 @@
           <span>{{ scope.row.regist_time }}</span>
         </template>
       </el-table-column>
+
+      
       <el-table-column
+        label="登录ip"
+        show-overflow-tooltip
+        width="150"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.login_ip }}</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
         label="登录日期"
         show-overflow-tooltip
         width="170"
@@ -140,57 +253,8 @@
         <template slot-scope="scope">
           <span>{{ scope.row.login_time }}</span>
         </template>
-      </el-table-column>
-      <el-table-column
-        label="银行名称"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.bank }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="姓名"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.card_name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="银行卡号"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.bank_card }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="身份证号"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id_code }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="手机号"
-        show-overflow-tooltip
-        width="170"
-        align="center"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.phone }}</span>
-        </template>
-      </el-table-column>
+      </el-table-column> -->
+      
     </el-table>
     <div v-if="memberInfoData.count">
       <Pagination
