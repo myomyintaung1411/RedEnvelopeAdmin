@@ -96,6 +96,12 @@ export const constantRoutes = [
         name: 'LogList',
         component: () => import('@/views/log/index'),
         meta: { title: '日志记录', icon: 'el-icon-question' }
+      },
+      {
+        path: 'withdrawlist',
+        name: 'WithdrawList',
+        component: () => import('@/views/withdraw/index'),
+        meta: { title: '提现记录', icon: 'el-icon-question' }
       }
     ]
   },
