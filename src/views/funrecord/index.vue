@@ -47,11 +47,11 @@
 
       <el-table-column label="手机号" show-overflow-tooltip width="130" align="center">
         <template slot-scope="scope">
-          <span>{{ }}</span>
+          <span>{{ scope.row.phone}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="详情描述" show-overflow-tooltip width="200" align="center">
+      <el-table-column label="详情描述" show-overflow-tooltip width="260" align="center">
         <template slot-scope="scope">
           {{ scope.row.content }}
         </template>
@@ -184,8 +184,13 @@ export default {
         end_time: this.toDate == '' || this.toDate == null ? '' : moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
         pageSize: this.perPage,
         currentPage: this.page,
-        type: "",
-        find_id: this.find_id
+        type: ""
+      }
+      if (this.find_id !== '') {
+        send_['find_id'] = this.find_id
+      }
+      if (this.phone !== '') {
+        send_['phone'] = this.phone
       }
       funRecord(send_).then(res => {
         console.log('res of fund recored data ********', res)

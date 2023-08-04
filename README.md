@@ -2,7 +2,7 @@
 
 English | [简体中文](./README-zh.md)
 
-> A minimal StockX Admin with Element UI & axios & iconfont & permission control & lint
+> A minimal 思乡会 with Element UI & axios & iconfont & permission control & lint
 
 **Live demo:** http://panjiachen.github.io/vue-admin-template
 

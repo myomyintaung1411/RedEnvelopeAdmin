@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'StockX Admin' // page title
+const name = defaultSettings.title || '思乡会' // page title
 var webpack = require('webpack');
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
