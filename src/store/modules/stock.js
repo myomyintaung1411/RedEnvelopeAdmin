@@ -20,7 +20,7 @@ const state = {
   carouselList: { record: [], count: 0 },
   articleList: { record: [], count: 0 },
   optionList: { record: [], count: 0 },
-  withdrawList: { list: [], total: 0 },
+  withdrawList: { record: [], count: 0 },
 }
 
 const mutations = {

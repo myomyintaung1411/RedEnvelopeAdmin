@@ -16,7 +16,17 @@
         placeholder="选择日期时间">
       </el-date-picker>
 
+      <el-input v-model="find_id" placeholder="用户ID" size="medium" clearable style="margin-left: 10px; width: 150px;"></el-input>
       <el-input v-model="findname" placeholder="手机号" size="medium" clearable style="margin-left: 10px; width: 150px;"></el-input>
+
+      <el-select v-model="type" size="medium" placeholder="状态" style="width: 150px; margin-left: 10px;">
+        <el-option
+          v-for="item in wd_type"
+          :key="item.code"
+          :label="item.name"
+          :value="item.code">
+        </el-option>
+      </el-select>
 
       <el-button icon="el-icon-search" type="primary" size="medium" style="margin-left: 10px;" @click="getWithdrawRecord">搜索</el-button>
       <el-button icon="el-icon-refresh" type="primary" size="medium" style="margin-left: 10px;" @click="refreshLog">刷新</el-button>
@@ -34,7 +44,7 @@
     <div style="margin: 5px;"></div>
     <el-table
       v-loading="listLoading"
-      :data="withdrawList.list"
+      :data="withdrawList.record"
       element-loading-text="Loading"
       stripe
       border
@@ -45,10 +55,10 @@
     >
       <el-table-column label="操作" width="100" align="left">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.status == 0" size="medium" type="text" @click="acceptWithdraw(scope.row)">通过</el-button>
-          <el-button v-if="scope.row.status == 0" size="medium" type="text" @click="rejectWthdraw(scope.row)">拒绝</el-button>
-          <div v-if="scope.row.status == 1" style="color: green">已通过</div>
-          <div v-if="scope.row.status == 2" style="color: red">已拒绝</div>
+          <el-button v-if="scope.row.status == 1" size="small" type="text" @click="acceptWithdraw(scope.row)">通过</el-button>
+          <el-button v-if="scope.row.status == 1" size="small" type="text" @click="rejectWthdraw(scope.row)">拒绝</el-button>
+          <!-- <div v-if="scope.row.status == 1" style="color: green">已通过</div>
+          <div v-if="scope.row.status == 2" style="color: red">已拒绝</div> -->
         </template>
       </el-table-column>
       <el-table-column label="ID" show-overflow-tooltip width="90" align="center">
@@ -58,7 +68,7 @@
       </el-table-column>
       <el-table-column label="用户账号" show-overflow-tooltip width="130" align="center">
         <template slot-scope="scope">
-          {{ scope.row.username }}
+          {{ scope.row.account }}
         </template>
       </el-table-column>
       <el-table-column label="提现金额" show-overflow-tooltip width="130" align="right">
@@ -68,15 +78,22 @@
       </el-table-column>
       <el-table-column label="申请前余额" show-overflow-tooltip width="130" align="right">
         <template slot-scope="scope">
-          <span>{{ scope.row.amount_from }}</span>
+          <span>{{ scope.row.before_withdraw }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="申请后余额" show-overflow-tooltip width="130" align="right">
+      <el-table-column label="订单状态" show-overflow-tooltip width="130" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.status == 1">待审核</span>
+          <span v-if="scope.row.status == 2" style="color: green">已通过</span>
+          <span v-if="scope.row.status == 3" style="color: red">已拒绝</span>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column label="申请后余额" show-overflow-tooltip width="130" align="right">
         <template slot-scope="scope">
           <span>{{ scope.row.amount_to }}</span>
         </template>
-      </el-table-column>
-      <el-table-column label="姓名" show-overflow-tooltip width="100" align="left">
+      </el-table-column> -->
+      <!-- <el-table-column label="姓名" show-overflow-tooltip width="100" align="left">
         <template slot-scope="scope">
           <span>{{ getBankInfo(scope.row.bank_info, 'realname') }}</span>
         </template>
@@ -95,10 +112,10 @@
         <template slot-scope="scope">
           <span>{{ scope.row.ip }}</span>
         </template>
-      </el-table-column>
-      <el-table-column label="申请时间" show-overflow-tooltip width="150" align="left">
+      </el-table-column> -->
+      <el-table-column label="申请时间" show-overflow-tooltip width="180" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.createdAt | dateFilter }}</span>
+          <span>{{ scope.row.create_time | dateFilter }}</span>
         </template>
       </el-table-column>
       <!-- <el-table-column label="订单状态" show-overflow-tooltip width="230" align="left">
@@ -108,14 +125,14 @@
           <span v-if="scope.row.status == 2" style="color: red">拒绝</span>
         </template>
       </el-table-column> -->
-      <el-table-column label="备注" show-overflow-tooltip width="230" align="left">
+      <!-- <el-table-column label="备注" show-overflow-tooltip width="230" align="left">
         <template slot-scope="scope">
           <span>{{ scope.row.comment }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
-    <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true" :total="withdrawList.total" :page.sync="pageNum" :limit.sync="pageSize" @pagination="PaginationEvent" />
+    <Pagination style="float: right; margin-top: 20px; margin-right: -20px;" :background="true" :total="withdrawList.count" :page.sync="pageNum" :limit.sync="pageSize" @pagination="PaginationEvent" />
 
     <Accept ref="acceptRef" :accept-data="acceptData" @withdrawEmit="withdrawEmit"  />
     <Reject ref="rejectRef" :reject-data="rejectData" @withdrawEmit="withdrawEmit"  />
@@ -123,7 +140,7 @@
 </template>
 
 <script>
-// import { getWithdrawRecordApi, checkUndoApi } from '@/api/hoh'
+import { getWithdrawRecordApi } from '@/api/stock'
 import { mapState } from 'vuex'
 import moment from 'moment'
 import Accept from './action/accept.vue'
@@ -162,8 +179,15 @@ export default {
       loading: false,
       toDate: '',
       fromDate: '',
+      find_id: '',
       findname: '',
-      type: '',
+      type: 'all',
+      wd_type: [
+        { code: 'all', name: '全部' },
+        { code: 1, name: '待操作' },
+        { code: 2, name: '批准' },
+        { code: 3, name: '拒绝' },
+      ],
       pageNum: 1,
       pageSize: 50,
     }
@@ -176,7 +200,7 @@ export default {
   mounted() {
     this.toDate = moment(new Date()).endOf('day').format('YYYY-MM-DD HH:mm:ss')
     this.fromDate = moment(new Date()).startOf('day').format('YYYY-MM-DD HH:mm:ss')
-    // this.getWithdrawRecord()
+    this.getWithdrawRecord()
   },
   methods: {
     refreshLog() {
@@ -200,27 +224,31 @@ export default {
     getWithdrawRecord() {
       this.listLoading = true
       let send_ = {
-        fromDate: this.fromDate == '' ||  this.fromDate == null ? '' : moment(this.fromDate).format('YYYY-MM-DD HH:mm:ss'),
-        toDate: this.toDate == '' || this.toDate == null ? '' :  moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
-        pageNum: this.pageNum,
+        // fromDate: this.fromDate == '' ||  this.fromDate == null ? '' : moment(this.fromDate).format('YYYY-MM-DD HH:mm:ss'),
+        // toDate: this.toDate == '' || this.toDate == null ? '' :  moment(this.toDate).format('YYYY-MM-DD HH:mm:ss'),
+        currentPage: this.pageNum,
+        status: this.type == 'all' ? '' : this.type,
         pageSize: this.pageSize
       }
 
+      if (this.find_id !== '') {
+        send_['find_id'] = this.find_id
+      }
       if (this.findname.trim() !== '') {
         send_['findname'] = this.findname.trim()
       }
       console.log('log send ', send_)
-      // getWithdrawRecordApi(send_).then(res => {
-      //   console.log('res ', res)
-      //   if (res.code == 0) {
-      //     this.$store.commit('hoh/SET_WITHDRAW_LIST', res.data)
-      //   } else {
-      //     this.$store.commit('hoh/SET_WITHDRAW_LIST', {list: [], total: 0})
-      //   }
-      //   this.listLoading = false
-      // }).catch(e => {
-      //   this.listLoading = false
-      // })
+      getWithdrawRecordApi(send_).then(res => {
+        console.log('res ', res)
+        if (res.code == 200) {
+          this.$store.commit('stock/SET_WITHDRAW_LIST', res.data)
+        } else {
+          this.$store.commit('stock/SET_WITHDRAW_LIST', {record: [], count: 0})
+        }
+        this.listLoading = false
+      }).catch(e => {
+        this.listLoading = false
+      })
     },
 
     acceptWithdraw(row) {

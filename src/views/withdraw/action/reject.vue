@@ -10,7 +10,7 @@
 
     <el-form ref="form" :model="form" label-width="50px">
       <el-form-item label="账号">
-        <el-input v-model="form.username" disabled></el-input>
+        <el-input v-model="form.account" disabled></el-input>
       </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="comment" type="textarea"></el-input>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-// import { rejectWithdrawApi } from '@/api/hoh'
+import { withdraw_option } from '@/api/user'
 import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
@@ -37,7 +37,7 @@ export default {
       loading: false,
       form: {
         id: '',
-        username: '',
+        account: '',
       },
       comment: ''
     }
@@ -59,20 +59,18 @@ export default {
       if (!this.rejectData.id) return this.$message.error('请选择操作记录')
 
       let send_ = {
-        with_id: this.rejectData.id,
-        user_id: this.rejectData.user_id,
-        amount: this.rejectData.amount,
-        comment: this.comment,
+        id: this.rejectData.id,
+        option_type: 3
       }
-      // rejectWithdrawApi(send_).then(res => {
-      //   if (res.code == 0) {
-      //     this.$message.success(res.msg)
-      //     this.onCancel()
-      //     this.$emit('withdrawEmit', true)
-      //   } else {
-      //     this.$message.error(res.msg)
-      //   }
-      // })
+      withdraw_option(send_).then(res => {
+        if (res.code == 200) {
+          this.$message.success(res.msg)
+          this.onCancel()
+          this.$emit('withdrawEmit', true)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   }
 }

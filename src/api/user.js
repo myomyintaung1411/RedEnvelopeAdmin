@@ -66,3 +66,11 @@ export function withdraw_setup(data) { // http://127.0.0.1/ht/withdraw_setup
     data
   })
 }
+
+export function withdraw_option(data) {
+  return request({
+    url: `/ht/withdraw_option`,
+    method: 'post',
+    data
+  })
+}

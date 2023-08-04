@@ -65,7 +65,7 @@
 
       <el-table-column label="邀请码" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ }}</span>
+          <span>{{ scope.row.referral_code }}</span>
         </template>
       </el-table-column>
 

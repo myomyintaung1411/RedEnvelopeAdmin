@@ -88,11 +88,11 @@ export function referral_setup(data) { // configlist of referral_setup
   })
 }
 
-// export function option_record(data) { // http://127.0.0.1/ht/get_option_record
-//   return request({
-//     url: `/ht/get_option_record`,
-//     method: 'post',
-//     data
-//   })
-// }
+export function getWithdrawRecordApi(data) { // http://127.0.0.1/ht/get_option_record
+  return request({
+    url: `/ht/get_withdraw`,
+    method: 'post',
+    data
+  })
+}
 
