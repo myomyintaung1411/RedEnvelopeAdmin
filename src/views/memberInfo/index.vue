@@ -45,6 +45,31 @@
     <el-table v-loading="listLoading" :data="memberInfoData.record" element-loading-text="Loading"
       :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="740"
       highlight-current-row>
+      <el-table-column label="操作" width="130" align="center">
+        <template slot-scope="scope">
+          <div>
+            <el-dropdown split-button type="primary" size="mini" trigger="click" :hide-on-click="true" style="margin-left: 5px;">
+              <span class="el-dropdown-link">
+                操作
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
+                  <div @click="chnageName(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">更改姓名</div>
+                </el-dropdown-item>
+                <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
+                  <div @click="changePass(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">更改密码</div>
+                </el-dropdown-item>
+                <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
+                  <div @click="changePhone(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">更改手机号</div>
+                </el-dropdown-item>
+                <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
+                  <div @click="freezeAmount(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">冻结</div>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="ID" show-overflow-tooltip width="70" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.user_id }}</span>
@@ -57,13 +82,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="姓名" show-overflow-tooltip width="140" align="center">
+      <el-table-column label="姓名" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.card_name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="邀请码" show-overflow-tooltip width="100" align="center">
+      <el-table-column label="邀请码" show-overflow-tooltip width="80" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.referral_code }}</span>
         </template>
@@ -75,7 +100,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="银行名称" show-overflow-tooltip width="170" align="center">
+      <el-table-column label="银行名称" show-overflow-tooltip width="130" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.bank }}</span>
         </template>
@@ -117,7 +142,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="注册日期" show-overflow-tooltip width="170" align="center">
+      <el-table-column label="注册日期" show-overflow-tooltip width="160" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.regist_time }}</span>
         </template>
@@ -145,6 +170,11 @@
       <Pagination style="float: right; margin-top: 20px; margin-right: -20px" :background="true"
         :total="memberInfoData.count" :page.sync="page" :limit.sync="perPage" @pagination="PaginationEvent" />
     </div>
+
+    <Name ref="nameRef" :name-data="nameData" @userEmit="userEmit" />
+    <Phone ref="phoneRef" :phone-data="phoneData" @userEmit="userEmit" />
+    <Pass ref="passRef" :pass-data="passData" @userEmit="userEmit" />
+    <Freeze ref="freezeRef" :freeze-data="freezeData" @userEmit="userEmit" />
   </div>
 </template>
 
@@ -153,7 +183,10 @@ import elDragDialog from "@/directive/el-drag-dialog";
 import { memberInfo } from "@/api/user";
 import { mapState, mapGetters } from "vuex";
 import moment from "moment";
-// import Update from './action/edit.vue'
+import Name from './action/name.vue'
+import Phone from './action/phone.vue'
+import Pass from './action/pass.vue'
+import Freeze from './action/freeze.vue'
 import Pagination from "@/components/Pagination";
 
 export default {
@@ -176,7 +209,10 @@ export default {
     },
   },
   components: {
-    // Update
+    Name,
+    Phone,
+    Pass,
+    Freeze,
     Pagination,
   },
   data() {
@@ -195,15 +231,18 @@ export default {
       amount_to: '',
       phone: '',
       id_code: '',
-      referalScore: ''
-      // memberInfoData: {},
+      referalScore: '',
+
+      nameData: {},
+      phoneData: {},
+      passData: {},
+      freezeData: {}
     };
   },
   computed: {
     ...mapState({
       memberInfoData: state => state.stock.userList,
-    }),
-    // ...mapGetters(['imageBase'])
+    })
   },
   mounted() {
     this.getMemberInfo();
@@ -242,6 +281,37 @@ export default {
         .catch((e) => {
           this.listLoading = false;
         });
+    },
+
+    chnageName(row) {
+      this.nameData = JSON.parse(JSON.stringify(row))
+      this.$nextTick(() => {
+        this.$refs.nameRef.dialogFormVisible = true
+      })
+    },
+    changePass(row) {
+      this.passData = JSON.parse(JSON.stringify(row))
+      this.$nextTick(() => {
+        this.$refs.passRef.dialogFormVisible = true
+      })
+    },
+    changePhone(row) {
+      this.phoneData = JSON.parse(JSON.stringify(row))
+      this.$nextTick(() => {
+        this.$refs.phoneRef.dialogFormVisible = true
+      })
+    },
+    freezeAmount(row) {
+      this.freezeData = JSON.parse(JSON.stringify(row))
+      this.$nextTick(() => {
+        this.$refs.freezeRef.dialogFormVisible = true
+      })
+    },
+
+    userEmit(val) {
+      if (val) {
+        this.getMemberInfo()
+      }
     },
 
     PaginationEvent(props) {

@@ -96,3 +96,19 @@ export function getWithdrawRecordApi(data) { // http://127.0.0.1/ht/get_option_r
   })
 }
 
+export function freezeUserApi(data) { 
+  return request({
+    url: `/ht/freezeAccount`,
+    method: 'post',
+    data
+  })
+}
+
+export function changeNameApi(data) { 
+  return request({
+    url: `/ht/changeName`,
+    method: 'post',
+    data
+  })
+}
+
