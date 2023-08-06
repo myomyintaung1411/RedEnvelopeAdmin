@@ -8,12 +8,15 @@
     @close="onCancel"
   >
 
-    <el-form ref="form" :model="form" label-width="50px">
+    <el-form ref="form" :model="form" label-width="100px">
       <el-form-item label="账号">
         <el-input v-model="form.phone" disabled></el-input>
       </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="password" placeholder="请输入密码"></el-input>
+      <el-form-item label="新密码">
+        <el-input v-model="password" placeholder="请输入新密码"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码">
+        <el-input v-model="confirm_password" placeholder="请输入确认密码"></el-input>
       </el-form-item>
       <!-- <el-form-item label="备注">
         <el-input v-model="comment" type="textarea" placeholder="备注"></el-input>
@@ -28,7 +31,7 @@
 </template>
 
 <script>
-import { changeNameApi } from '@/api/stock'
+import { changePassApi } from '@/api/stock'
 import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
@@ -45,6 +48,7 @@ export default {
       name: '',
       phone: '',
       password: '',
+      confirm_password: '',
       comment: ''
     }
   },
@@ -59,18 +63,24 @@ export default {
   },
   methods: {
     onCancel() {
+      this.loading = false
+      this.password = ''
+      this.confirm_password = ''
       this.dialogFormVisible = false
     },
     onConfirm() {
       if (!this.passData.user_id) return this.$message.error('请选择用户')
-      if (this.password.trim() == '') return this.$message.error('请输入密码')
+      if (this.password.trim() == '') return this.$message.error('请输入新密码')
+      if (this.confirm_password.trim() == '') return this.$message.error('请输入确认密码')
+      if (this.confirm_password.trim() !== this.password.trim()) return this.$message.error('两次输入密码不一致！')
 
       let send_ = {
-        id: this.passData.user_id,
-        password: this.password
+        opt_id: this.passData.user_id,
+        new_pw: this.password,
+        new_pw2: this.confirm_password
       }
       this.loading = true
-      changeNameApi(send_).then(res => {
+      changePassApi(send_).then(res => {
         if (res.code == 200) {
           this.$message.success(res.msg)
           this.onCancel()

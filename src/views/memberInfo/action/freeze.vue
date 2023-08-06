@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-el-drag-dialog
-    title="冻结账户"
+    :title="isFreeze == 1 ? '解冻账户' : '冻结账户'"
     :visible.sync="dialogFormVisible"
     :close-on-click-modal="false"
     width="430px"
@@ -9,7 +9,7 @@
   >
 
     <el-form ref="form" :model="form" label-width="50px">
-      您确认要冻结 {{ form.phone }} 的账户吗？
+      您确认要 {{ isFreeze == 1 ? '解冻' : '冻结' }} {{ form.phone }} 的账户吗？
     </el-form>
 
     <div slot="footer">
@@ -25,7 +25,7 @@ import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
   directives: { elDragDialog },
-  props: ['freezeData'],
+  props: ['freezeData', 'isFreeze'],
   data() {
     return {
       dialogFormVisible: false,
@@ -47,13 +47,15 @@ export default {
   },
   methods: {
     onCancel() {
+      this.loading = false
       this.dialogFormVisible = false
     },
     onConfirm() {
       if (!this.freezeData.user_id) return this.$message.error('请选择用户')
 
       let send_ = {
-        opt_id: this.freezeData.user_id
+        opt_id: this.freezeData.user_id,
+        freeze: this.isFreeze
       }
       this.loading = true
       freezeUserApi(send_).then(res => {

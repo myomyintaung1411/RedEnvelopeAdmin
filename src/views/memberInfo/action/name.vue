@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { changeNameApi } from '@/api/stock'
+import { changeRealnameApi } from '@/api/stock'
 import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
@@ -65,6 +65,8 @@ export default {
   },
   methods: {
     onCancel() {
+      this.loading = false
+      this.name = ''
       this.dialogFormVisible = false
     },
     onConfirm() {
@@ -72,11 +74,11 @@ export default {
       if (this.name.trim() == '') return this.$message.error('请输入姓名')
 
       let send_ = {
-        id: this.nameData.user_id,
-        name: this.name
+        opt_id: this.nameData.user_id,
+        real_name: this.name
       }
       this.loading = true
-      changeNameApi(send_).then(res => {
+      changeRealnameApi(send_).then(res => {
         if (res.code == 200) {
           this.$message.success(res.msg)
           this.onCancel()

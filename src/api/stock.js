@@ -104,9 +104,25 @@ export function freezeUserApi(data) {
   })
 }
 
-export function changeNameApi(data) { 
+export function changeRealnameApi(data) { 
   return request({
-    url: `/ht/changeName`,
+    url: `/ht/editRealName`,
+    method: 'post',
+    data
+  })
+}
+
+export function changePhoneApi(data) { 
+  return request({
+    url: `/ht/editPhone`,
+    method: 'post',
+    data
+  })
+}
+
+export function changePassApi(data) { 
+  return request({
+    url: `/ht/editPw`,
     method: 'post',
     data
   })

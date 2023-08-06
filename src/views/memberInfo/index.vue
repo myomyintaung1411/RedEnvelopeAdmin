@@ -63,7 +63,10 @@
                   <div @click="changePhone(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">更改手机号</div>
                 </el-dropdown-item>
                 <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
-                  <div @click="freezeAmount(scope.row)" style="width: 100%; font-size: 14px; color: #1060B1;">冻结</div>
+                  <div @click="freezeAmount(scope.row, 0)" style="width: 100%; font-size: 14px; color: #1060B1;">冻结</div>
+                </el-dropdown-item>
+                <el-dropdown-item style="width: 100%; margin: 0px!important; text-align: center;">
+                  <div @click="freezeAmount(scope.row, 1)" style="width: 100%; font-size: 14px; color: #1060B1;">解冻</div>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -84,7 +87,7 @@
 
       <el-table-column label="姓名" show-overflow-tooltip width="100" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.card_name }}</span>
+          <span>{{ scope.row.real_name }}</span>
         </template>
       </el-table-column>
 
@@ -97,6 +100,12 @@
       <el-table-column label="身份证号" show-overflow-tooltip width="170" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.id_code }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="银行卡姓名" show-overflow-tooltip width="100" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.card_name }}</span>
         </template>
       </el-table-column>
 
@@ -141,6 +150,11 @@
           <span>{{ scope.row.reference_name }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="账户状态" show-overflow-tooltip width="90" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.enable == 1 ? '正常' : scope.row.enable == 0 ? '冻结' : '' }}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column label="注册日期" show-overflow-tooltip width="160" align="center">
         <template slot-scope="scope">
@@ -174,7 +188,7 @@
     <Name ref="nameRef" :name-data="nameData" @userEmit="userEmit" />
     <Phone ref="phoneRef" :phone-data="phoneData" @userEmit="userEmit" />
     <Pass ref="passRef" :pass-data="passData" @userEmit="userEmit" />
-    <Freeze ref="freezeRef" :freeze-data="freezeData" @userEmit="userEmit" />
+    <Freeze ref="freezeRef" :freeze-data="freezeData" :is-freeze="isFreeze" @userEmit="userEmit" />
   </div>
 </template>
 
@@ -236,7 +250,8 @@ export default {
       nameData: {},
       phoneData: {},
       passData: {},
-      freezeData: {}
+      freezeData: {},
+      isFreeze: ''
     };
   },
   computed: {
@@ -301,8 +316,9 @@ export default {
         this.$refs.phoneRef.dialogFormVisible = true
       })
     },
-    freezeAmount(row) {
+    freezeAmount(row, type) { // 1解冻 0冻结
       this.freezeData = JSON.parse(JSON.stringify(row))
+      this.isFreeze = type
       this.$nextTick(() => {
         this.$refs.freezeRef.dialogFormVisible = true
       })

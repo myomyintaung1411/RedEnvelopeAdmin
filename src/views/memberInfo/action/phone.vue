@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { changeNameApi } from '@/api/stock'
+import { changePhoneApi } from '@/api/stock'
 import elDragDialog from '@/directive/el-drag-dialog'
 
 export default {
@@ -62,6 +62,8 @@ export default {
   },
   methods: {
     onCancel() {
+      this.loading = false
+      this.phone = ''
       this.dialogFormVisible = false
     },
     onConfirm() {
@@ -70,11 +72,11 @@ export default {
       if (this.phone.length != 11) return this.$message.error('手机号格式错误')
 
       let send_ = {
-        id: this.phoneData.user_id,
+        opt_id: this.phoneData.user_id,
         phone: this.phone
       }
       this.loading = true
-      changeNameApi(send_).then(res => {
+      changePhoneApi(send_).then(res => {
         if (res.code == 200) {
           this.$message.success(res.msg)
           this.onCancel()
