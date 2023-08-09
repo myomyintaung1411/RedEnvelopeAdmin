@@ -78,6 +78,11 @@
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="帐号" show-overflow-tooltip width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.account }}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column label="手机号" show-overflow-tooltip width="120" align="center">
         <template slot-scope="scope">
