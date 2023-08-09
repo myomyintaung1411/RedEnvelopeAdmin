@@ -28,6 +28,11 @@ service.interceptors.request.use(
         //let endata = AES.encrypt(JSON.stringify(config.data), { key: getk_(), iv: geti_() })
         //config.data = {data: endata}
        // config.data = data
+       let cd = config?.data ? JSON.parse(JSON.stringify(config.data)) : {}
+       let cd_enc = AES.encrypt(JSON.stringify(cd));
+       let decryptedData = JSON.parse(AES.decrypt(cd_enc));
+       console.log(decryptedData)
+         config.data =  {data:cd_enc} ;
       }
       
       // if (config.method == 'get') {
@@ -62,21 +67,16 @@ service.interceptors.response.use(
   // "DENIED": 1008,
   // "TOKEN_EXPIRED": 1009
   response => {
-    let res = response.data
-    console.log('respoonse ', response)
+   // let res = response.data
+   // console.log('respoonse ', response)
     // if (response.config?.url?.indexOf('/recaptcha') == -1) {
     //   res = AES.decrypt(res, { key: getk_(), iv: geti_() })
     //   res = JSON.parse(res)
     // }
-    console.log('response ', res)
-        console.log('ccccccccc ', res)
-        // return Promise.reject(new Error(res || 'Error'))
-
-        return res
-      // } 
-      // else {
-      //   return res
-      // }
+    let cd_enc = response.data; 
+    let decryptedData = JSON.parse(AES.decrypt(cd_enc));
+    response.data = decryptedData;
+    return response.data
     },
   error => {
     console.log('err' + error) // for debug

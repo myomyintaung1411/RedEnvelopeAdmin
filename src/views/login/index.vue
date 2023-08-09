@@ -278,17 +278,18 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then((res) => {
-              // console.log('hhhhhhhhhhhhhhhhhhhhhh', res)
+               console.log('hhhhhhhhhhhhhhhhhhhhhh', res)
             if (res.success && res.code == 200) {
               this.$router.push({ path: this.redirect || '/' })
-            } else {
-              this.refreshCode()
-              if (res.errors !== null) {
-                let key = Object.keys(res?.errors)[0]
-                this.$message.error(res?.errors[key])
-              } else {
-                this.$message.error(res.message)
-              }
+            } 
+            else {
+              // this.refreshCode()
+              // if (res.errors !== null) {
+              //   let key = Object.keys(res?.errors)[0]
+              //   this.$message.error(res?.errors[key])
+              // } else {
+                this.$message.error(res.msg)
+
             }
             this.loading = false
           }).catch((e) => {
