@@ -56,8 +56,8 @@
 
       <el-table-column label="图片地址" show-overflow-tooltip width="230" align="center">
         <template slot-scope="scope">
-          <el-image style="width: 30px; height: 20px" :src="'http://45.116.165.93:4195/statics/ ' + scope.row.url"
-            :preview-src-list="['http://45.116.165.93:4195/statics/' + scope.row.url]">
+          <el-image style="width: 30px; height: 20px" :src="'http://45.116.165.93:4195/statics/' + scope.row.img_name"
+            :preview-src-list="['http://45.116.165.93:4195/statics/' + scope.row.img_name]">
           </el-image>
         </template>
       </el-table-column>
