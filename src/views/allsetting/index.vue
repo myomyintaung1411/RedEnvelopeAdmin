@@ -293,7 +293,7 @@ export default {
         if (res.code == 0) {
           this.form.imageUrl = res.data.url
           //Editor.insertEmbed(cursorLocation, "image", this.form.imageUrl);
-          Editor.insertEmbed(cursorLocation, "image", 'http://45.116.165.93:4195/statics/' + res.data.name);
+          Editor.insertEmbed(cursorLocation, "image", 'https://sxh-cn.oss-cn-hongkong.aliyuncs.com/' + res.data.name);
           this.$message.success(res.message)
           resetUploader();
           //this.onCancel()
