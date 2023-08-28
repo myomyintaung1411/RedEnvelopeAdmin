@@ -72,13 +72,7 @@
           <span>{{ scope.row.account }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录ip" show-overflow-tooltip width="400" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.login_ip }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="创建时间" show-overflow-tooltip width="230" align="center">
+      <el-table-column label="操作时间" show-overflow-tooltip width="230" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.create_at }}</span>
         </template>
@@ -86,6 +80,11 @@
       <el-table-column label="操作备注" show-overflow-tooltip width="430" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.option }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作IP" show-overflow-tooltip width="400" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.ip }}</span>
         </template>
       </el-table-column>
     </el-table>
