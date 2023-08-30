@@ -174,6 +174,9 @@ export default {
         currentPage: this.page,
         find_id: this.find_id
       }
+      if (this.phone != '') {
+        data['phone'] = this.phone
+      }
       option_record(data).then(res => {
         console.log(data, "send data to api ")
         console.log('res ', res)
