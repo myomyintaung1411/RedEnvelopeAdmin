@@ -129,8 +129,8 @@ export default {
       loginForm: {
         // username: '09000000005',
         // password: 'admin5@stockxpass',
-        username: 'admin',
-        password: '111111',
+        username: '',
+        password: '',
         recaptcha: ''
       },
       loginRules: {
