@@ -42,10 +42,18 @@
     </div> -->
 
     <div style="margin: 5px"></div>
+
+    <div v-if="ulist.length >= 0">
+      返回列表：
+      <el-button type="text" @click="clickOwn()">{{ 'admin' }} >> </el-button>
+      <span v-for="u in ulist" :key="u">
+        <el-button type="text" @click="clickBtn(u)">{{ u }} >> </el-button>
+      </span>
+    </div>
     <el-table v-loading="listLoading" :data="memberInfoData.record" element-loading-text="Loading"
       :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="740"
       highlight-current-row>
-      <el-table-column label="操作" width="130" align="center">
+      <el-table-column label="操作" width="110" align="center">
         <template slot-scope="scope">
           <div>
             <el-dropdown split-button type="primary" size="mini" trigger="click" :hide-on-click="true" style="margin-left: 5px;">
@@ -98,7 +106,7 @@
 
       <el-table-column label="邀请码" show-overflow-tooltip width="80" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.referral_code }}</span>
+          <span style="cursor: pointer; color: #1060B1" @click="getDirectUserlist(scope.row)">{{ scope.row.referral_code }}</span>
         </template>
       </el-table-column>
 
@@ -150,7 +158,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="直属上级" show-overflow-tooltip width="100" align="center">
+      <el-table-column label="直属上级" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.reference_name }}</span>
         </template>
@@ -240,6 +248,7 @@ export default {
       list: null,
       listLoading: false,
       loading: false,
+      ulist: [],
 
       page: 1,
       perPage: 50,
@@ -268,6 +277,9 @@ export default {
     this.getMemberInfo();
   },
   methods: {
+    clickCode(user) {
+      this.ulist.push(user.account)
+    },
     refreshOrder() {
       this.page = 1;
       this.getMemberInfo();
@@ -275,6 +287,43 @@ export default {
     getOrderSearch() {
       this.page = 1;
       this.getMemberInfo();
+    },
+    clickOwn() {
+      this.ulist = []
+      this.getMemberInfo()
+    },
+    clickBtn(u) {
+      var index = this.ulist.indexOf(u); // 找到要删除的用户在数组中的位置
+      if (index !== -1) {
+        this.ulist.splice(index + 1); // 删除该位置及其后面的元素
+      }
+
+      this.page = 1
+      let send_ = {
+        pageSize: this.perPage,
+        currentPage: this.page,
+        reference_name: u
+      };
+      // if (this.find_id.trim() != '') send_['find_id'] = this.find_id.trim()
+      // if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
+      // if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
+      // if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      if (this.amount_from != '' && this.amount_to != '') {
+        send_['referalScore'] = this.amount_from + "-" + this.amount_to
+      }
+      this.listLoading = true;
+      memberInfo(send_)
+        .then((res) => {
+          console.log("res ", res);
+          if (res.success && res.code == 200) {
+            // this.memberInfoData = res.data;
+            this.$store.commit('stock/SET_USER_LIST', res.data)
+          }
+          this.listLoading = false;
+        })
+        .catch((e) => {
+          this.listLoading = false;
+        });
     },
     getMemberInfo() {
       let send_ = {
@@ -285,6 +334,35 @@ export default {
       if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
       if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
       if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      if (this.amount_from != '' && this.amount_to != '') {
+        send_['referalScore'] = this.amount_from + "-" + this.amount_to
+      }
+      this.listLoading = true;
+      memberInfo(send_)
+        .then((res) => {
+          console.log("res ", res);
+          if (res.success && res.code == 200) {
+            // this.memberInfoData = res.data;
+            this.$store.commit('stock/SET_USER_LIST', res.data)
+          }
+          this.listLoading = false;
+        })
+        .catch((e) => {
+          this.listLoading = false;
+        });
+    },
+    getDirectUserlist(row) {
+      this.clickCode(row)
+      this.page = 1
+      let send_ = {
+        pageSize: this.perPage,
+        currentPage: this.page,
+        reference_name: row.account
+      };
+      // if (this.find_id.trim() != '') send_['find_id'] = this.find_id.trim()
+      // if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
+      // if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
+      // if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
       if (this.amount_from != '' && this.amount_to != '') {
         send_['referalScore'] = this.amount_from + "-" + this.amount_to
       }
