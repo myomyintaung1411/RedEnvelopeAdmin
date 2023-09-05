@@ -163,6 +163,11 @@
           <span>{{ scope.row.reference_name }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="直属下级数" show-overflow-tooltip width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.subordinate_number }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="账户状态" show-overflow-tooltip width="90" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.enable == 1 ? '正常' : scope.row.enable == 0 ? '冻结' : '' }}</span>
