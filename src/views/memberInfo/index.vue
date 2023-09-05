@@ -14,6 +14,8 @@
         style="margin-left: 10px; width: 150px"
       ></el-input> -->
 
+      <el-input v-model="reference_name" placeholder="上级" size="small" clearable
+        style="margin-left: 10px; width: 150px"></el-input>
       <el-input v-model="find_name" placeholder="姓名" size="small" clearable
         style="margin-left: 10px; width: 150px"></el-input>
 
@@ -259,6 +261,7 @@ export default {
       perPage: 50,
       find_id: "",
       find_name: "",
+      reference_name: '',
       nickname: "",
       amount_from: '',
       amount_to: '',
@@ -279,11 +282,13 @@ export default {
     })
   },
   mounted() {
+    this.reference_name = ''
     this.getMemberInfo();
   },
   methods: {
     clickCode(user) {
       this.ulist.push(user.account)
+      this.reference_name = user.account
     },
     refreshOrder() {
       this.page = 1;
@@ -295,6 +300,7 @@ export default {
     },
     clickOwn() {
       this.ulist = []
+      this.reference_name = ''
       this.getMemberInfo()
     },
     clickBtn(u) {
@@ -302,7 +308,7 @@ export default {
       if (index !== -1) {
         this.ulist.splice(index + 1); // 删除该位置及其后面的元素
       }
-
+      this.reference_name = u
       this.page = 1
       let send_ = {
         pageSize: this.perPage,
@@ -339,6 +345,7 @@ export default {
       if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
       if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
       if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      if (this.reference_name.trim() != '') send_['reference_name'] = this.reference_name.trim()
       if (this.amount_from != '' && this.amount_to != '') {
         send_['referalScore'] = this.amount_from + "-" + this.amount_to
       }
