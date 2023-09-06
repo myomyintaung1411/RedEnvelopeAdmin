@@ -55,7 +55,7 @@
     <el-table v-loading="listLoading" :data="memberInfoData.record" element-loading-text="Loading"
       :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="740"
       highlight-current-row>
-      <el-table-column label="操作" width="110" align="center">
+      <el-table-column label="操作" width="110" align="center" fixed>
         <template slot-scope="scope">
           <div>
             <el-dropdown split-button type="primary" size="mini" trigger="click" :hide-on-click="true" style="margin-left: 5px;">
@@ -83,30 +83,30 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="ID" show-overflow-tooltip width="70" align="center">
+      <el-table-column label="ID" show-overflow-tooltip width="70" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="帐号" show-overflow-tooltip width="110" align="center">
+      <el-table-column label="帐号" show-overflow-tooltip width="110" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.account }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="手机号" show-overflow-tooltip width="120" align="center">
+      <el-table-column label="手机号" show-overflow-tooltip width="120" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.phone }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="姓名" show-overflow-tooltip width="100" align="center">
+      <el-table-column label="姓名" show-overflow-tooltip width="100" align="center" fixed>
         <template slot-scope="scope">
           <span>{{ scope.row.real_name }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="邀请码" show-overflow-tooltip width="80" align="center">
+      <el-table-column label="邀请码" show-overflow-tooltip width="80" align="center" fixed>
         <template slot-scope="scope">
           <span style="cursor: pointer; color: #1060B1" @click="getDirectUserlist(scope.row)">{{ scope.row.referral_code }}</span>
         </template>
@@ -183,6 +183,11 @@
       </el-table-column>
 
 
+      <el-table-column label="注册ip" show-overflow-tooltip width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.regist_ip }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="登录ip" show-overflow-tooltip width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.login_ip }}</span>
@@ -303,6 +308,16 @@ export default {
       this.reference_name = ''
       this.getMemberInfo()
     },
+    splitIP(ip) {
+      if (ip == '' || ip == null || ip == undefined) return ''
+      let ips = ip.split(',')
+      // console.log('ips ', ips)
+      if (ips.length == 2) {
+        return ips[0] || ''
+      }
+      if (ips.length == 3) return ips[1] || ''
+      return ips[0] || ''
+    },
     clickBtn(u) {
       var index = this.ulist.indexOf(u); // 找到要删除的用户在数组中的位置
       if (index !== -1) {
@@ -328,7 +343,14 @@ export default {
           console.log("res ", res);
           if (res.success && res.code == 200) {
             // this.memberInfoData = res.data;
-            this.$store.commit('stock/SET_USER_LIST', res.data)
+            let sdata = res.data
+            if (sdata?.record && sdata?.record?.length > 0) {
+              sdata?.record?.map(u => {
+                u.regist_ip = this.splitIP(u?.regist_ip)
+                u.login_ip = this.splitIP(u?.login_ip)
+              })
+            }
+            this.$store.commit('stock/SET_USER_LIST', sdata)
           }
           this.listLoading = false;
         })
@@ -360,7 +382,14 @@ export default {
           console.log("res ", res);
           if (res.success && res.code == 200) {
             // this.memberInfoData = res.data;
-            this.$store.commit('stock/SET_USER_LIST', res.data)
+            let sdata = res.data
+            if (sdata?.record && sdata?.record?.length > 0) {
+              sdata?.record?.map(u => {
+                u.regist_ip = this.splitIP(u?.regist_ip)
+                u.login_ip = this.splitIP(u?.login_ip)
+              })
+            }
+            this.$store.commit('stock/SET_USER_LIST', sdata)
           }
           this.listLoading = false;
         })
@@ -389,7 +418,14 @@ export default {
           console.log("res ", res);
           if (res.success && res.code == 200) {
             // this.memberInfoData = res.data;
-            this.$store.commit('stock/SET_USER_LIST', res.data)
+            let sdata = res.data
+            if (sdata?.record && sdata?.record?.length > 0) {
+              sdata?.record?.map(u => {
+                u.regist_ip = this.splitIP(u?.regist_ip)
+                u.login_ip = this.splitIP(u?.login_ip)
+              })
+            }
+            this.$store.commit('stock/SET_USER_LIST', sdata)
           }
           this.listLoading = false;
         })
