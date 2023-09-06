@@ -344,8 +344,13 @@ export default {
       if (this.find_id.trim() != '') send_['find_id'] = this.find_id.trim()
       if (this.find_name.trim() != '') send_['find_name'] = this.find_name.trim()
       if (this.id_code.trim() != '') send_['id_code'] = this.id_code.trim()
-      if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
-      if (this.reference_name.trim() != '') send_['reference_name'] = this.reference_name.trim()
+      if (this.reference_name.trim() != '') {
+        send_['reference_name'] = this.reference_name.trim()
+      } else {
+        if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      }
+      // if (this.phone.trim() != '') send_['phone'] = this.phone.trim()
+      // if (this.reference_name.trim() != '') send_['reference_name'] = this.reference_name.trim()
       if (this.amount_from != '' && this.amount_to != '') {
         send_['referalScore'] = this.amount_from + "-" + this.amount_to
       }
