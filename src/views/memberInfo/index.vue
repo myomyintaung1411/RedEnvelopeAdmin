@@ -183,16 +183,16 @@
       </el-table-column>
 
 
-      <el-table-column label="注册ip" show-overflow-tooltip width="150" align="center">
+      <el-table-column label="注册ip" show-overflow-tooltip width="260" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.regist_ip }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录ip" show-overflow-tooltip width="150" align="center">
+      <!-- <el-table-column label="登录ip" show-overflow-tooltip width="150" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.login_ip }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <!-- <el-table-column
         label="登录日期"
         show-overflow-tooltip
@@ -227,6 +227,7 @@ import Phone from './action/phone.vue'
 import Pass from './action/pass.vue'
 import Freeze from './action/freeze.vue'
 import Pagination from "@/components/Pagination";
+import { getIP } from '@/api/ip'
 
 export default {
   name: "OrderList",
@@ -291,6 +292,40 @@ export default {
     this.getMemberInfo();
   },
   methods: {
+    /**
+     * 遍历好的数组列表“去重”后获取对应IP地理位置
+     * 为了避免相同ip一页内，多次请求
+     * @param {Object} tableData 数据列
+     */
+    mapIP(tableData) {
+      console.log('mapIp', tableData)
+      let arr = tableData
+      var hash=[]
+      for (var i = 0; i < arr.length; i++) {
+        for (var j = i+1; j < arr.length; j++) {
+          if(arr[i].regist_ip===arr[j].regist_ip) {
+            ++i
+          }
+        }
+        hash.push(arr[i])
+      }
+      hash.map(async v => {
+        v.Ipp = ' ' + await this.getIPAddress(v.regist_ip)
+        tableData.forEach(vv => {
+          if(vv.regist_ip === v.regist_ip) {
+            vv.regist_ip += v.Ipp
+          }
+        })
+      })
+    },
+    async getIPAddress(ip) {
+      let {data} = await getIP(ip)
+      if(data.data.length > 0) {
+        return data.data[0].location
+      } else {
+        return ''
+      }
+    },
     clickCode(user) {
       this.ulist.push(user.account)
       this.reference_name = user.account
@@ -349,6 +384,7 @@ export default {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
               })
+              this.mapIP(sdata.record)
             }
             this.$store.commit('stock/SET_USER_LIST', sdata)
           }
@@ -388,6 +424,7 @@ export default {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
               })
+              this.mapIP(sdata.record)
             }
             this.$store.commit('stock/SET_USER_LIST', sdata)
           }
@@ -424,6 +461,7 @@ export default {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
               })
+              this.mapIP(sdata.record)
             }
             this.$store.commit('stock/SET_USER_LIST', sdata)
           }

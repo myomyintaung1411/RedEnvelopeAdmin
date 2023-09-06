@@ -45,6 +45,13 @@ module.exports = {
           '^/apix': ''
         }
       },
+      '/ipaddr': {
+        target: 'http://opendata.baidu.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/ipaddr': ''
+        }
+      },
     }
     // before: require('./mock/mock-server.js')
   },
