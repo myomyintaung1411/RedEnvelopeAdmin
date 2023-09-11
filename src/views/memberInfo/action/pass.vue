@@ -33,6 +33,7 @@
 <script>
 import { changePassApi } from '@/api/stock'
 import elDragDialog from '@/directive/el-drag-dialog'
+import md5 from "js-md5";
 
 export default {
   directives: { elDragDialog },
@@ -76,8 +77,8 @@ export default {
 
       let send_ = {
         opt_id: this.passData.user_id,
-        new_pw: this.password,
-        new_pw2: this.confirm_password
+        new_pw: md5(this.password),
+        new_pw2: md5(this.confirm_password)
       }
       this.loading = true
       changePassApi(send_).then(res => {

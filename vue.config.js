@@ -38,8 +38,8 @@ module.exports = {
     },
     proxy: {
       '/apix': {
-        target: 'http://154.212.146.148:4195/',
-        // target: 'http://45.116.165.93:4195/',
+        // target: 'http://154.212.146.148:4195/',
+        target: 'http://45.116.165.93:4195/',
         changeOrigin: true,
         pathRewrite: {
           '^/apix': ''
