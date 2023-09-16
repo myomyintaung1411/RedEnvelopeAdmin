@@ -88,9 +88,9 @@
           <span>{{ scope.row.user_id }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="帐号" show-overflow-tooltip width="110" align="center">
+      <!-- <el-table-column label="关系" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
-          <span>{{ scope.row.account }}</span>
+          <span>{{ scope.row.gx_name.join('/') }}</span>
         </template>
       </el-table-column> -->
 
@@ -380,6 +380,8 @@ export default {
             // this.memberInfoData = res.data;
             let sdata = res.data
             if (sdata?.record && sdata?.record?.length > 0) {
+              this.ulist = []
+              this.ulist = sdata?.record[0].gx_name
               sdata?.record?.map(u => {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
@@ -420,6 +422,8 @@ export default {
             // this.memberInfoData = res.data;
             let sdata = res.data
             if (sdata?.record && sdata?.record?.length > 0) {
+              this.ulist = []
+              this.ulist = sdata?.record[0].gx_name
               sdata?.record?.map(u => {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
@@ -457,6 +461,8 @@ export default {
             // this.memberInfoData = res.data;
             let sdata = res.data
             if (sdata?.record && sdata?.record?.length > 0) {
+              this.ulist = []
+              this.ulist = sdata?.record[0].gx_name.shift()
               sdata?.record?.map(u => {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
