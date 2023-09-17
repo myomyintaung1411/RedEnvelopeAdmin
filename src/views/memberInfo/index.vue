@@ -47,7 +47,7 @@
 
     <div v-if="ulist.length >= 0">
       返回列表：
-      <el-button type="text" @click="clickOwn()">{{ 'admin' }} >> </el-button>
+      <!-- <el-button type="text" @click="clickOwn()">{{ 'admin' }} >> </el-button> -->
       <span v-for="u in ulist" :key="u">
         <el-button type="text" @click="clickBtn(u)">{{ u }} >> </el-button>
       </span>
@@ -165,9 +165,14 @@
           <span>{{ scope.row.reference_name }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="直属下级数" show-overflow-tooltip width="110" align="center">
+      <el-table-column label="下级数量" show-overflow-tooltip width="110" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.subordinate_number }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="关系" show-overflow-tooltip width="150" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.gx_name.join('/') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="账户状态" show-overflow-tooltip width="90" align="center">
@@ -354,6 +359,11 @@ export default {
       return ips[0] || ''
     },
     clickBtn(u) {
+
+      if (u == 'admin') {
+        this.clickOwn()
+        return
+      }
       var index = this.ulist.indexOf(u); // 找到要删除的用户在数组中的位置
       if (index !== -1) {
         this.ulist.splice(index + 1); // 删除该位置及其后面的元素
