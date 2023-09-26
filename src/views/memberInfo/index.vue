@@ -472,7 +472,7 @@ export default {
             let sdata = res.data
             if (sdata?.record && sdata?.record?.length > 0) {
               this.ulist = []
-              this.ulist = sdata?.record[0].gx_name.shift()
+              this.ulist = sdata?.record[0].gx_name
               sdata?.record?.map(u => {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
