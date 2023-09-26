@@ -55,7 +55,7 @@
     <el-table v-loading="listLoading" :data="memberInfoData.record" element-loading-text="Loading"
       :header-cell-style="{ color: '', background: '#F5F5F5', padding: '5px 0px' }" border stripe fit height="740"
       highlight-current-row>
-      <el-table-column label="操作" width="110" align="center">
+      <el-table-column label="操作" width="120" align="center">
         <template slot-scope="scope">
           <div>
             <el-dropdown split-button type="primary" size="mini" trigger="click" :hide-on-click="true" style="margin-left: 5px;">
@@ -433,7 +433,12 @@ export default {
             let sdata = res.data
             if (sdata?.record && sdata?.record?.length > 0) {
               this.ulist = []
-              this.ulist = sdata?.record[0].gx_name
+              if (this.phone == '' && this.reference_name == '' && this.id_code == '' && this.find_id == '' && this.find_name == '') {
+                this.ulist.push('admin')
+              } else {
+                this.ulist = sdata?.record[0].gx_name
+              }
+              
               sdata?.record?.map(u => {
                 u.regist_ip = this.splitIP(u?.regist_ip)
                 u.login_ip = this.splitIP(u?.login_ip)
